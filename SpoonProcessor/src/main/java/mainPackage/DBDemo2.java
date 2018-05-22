@@ -91,7 +91,8 @@ public class DBDemo2 {
 	/** The password for the MySQL account (or empty for anonymous) */
 	private final String password = "root";
 
-	/** The name of the computer running MySQL */
+	/** The name of the computer running MySQL */  
+	
 	private final String serverName = "localhost";
 
 	/** The port of the MySQL server (default is 3306) */
