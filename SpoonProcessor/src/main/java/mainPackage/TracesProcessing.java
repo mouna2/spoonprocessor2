@@ -30,7 +30,7 @@ public class TracesProcessing {
 		
 
 		
-		while(row<rowcountint+3) {
+		while(row<rowcountint) {
 			ResultSet ids = st.executeQuery("SELECT traces.id from traces where id='"+row+"'"); 
 			while(ids.next()){
 				id = ids.getString("id"); }
