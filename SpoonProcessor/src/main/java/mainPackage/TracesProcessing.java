@@ -28,8 +28,9 @@ public class TracesProcessing {
 		int row=1; 
 		String id=null;
 		
+
 		
-		while(row<rowcountint) {
+		while(row<rowcountint+3) {
 			ResultSet ids = st.executeQuery("SELECT traces.id from traces where id='"+row+"'"); 
 			while(ids.next()){
 				id = ids.getString("id"); }

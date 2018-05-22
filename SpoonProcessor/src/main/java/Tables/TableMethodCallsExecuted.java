@@ -13,7 +13,7 @@ import java.util.List;
 import spoon.reflect.factory.ClassFactory;
 
 public class TableMethodCallsExecuted {
-	public void methodcallsexecuted(Statement st, ClassFactory classFactory) throws SQLException, FileNotFoundException {File file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\data.txt");
+	public void methodcallsexecuted(Statement st, ClassFactory classFactory) throws SQLException, FileNotFoundException {File file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\data.txt");
 	FileReader fileReader = new FileReader(file);
 	BufferedReader bufferedReader = new BufferedReader(fileReader);
 	StringBuffer stringBuffer = new StringBuffer();

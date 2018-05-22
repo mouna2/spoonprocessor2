@@ -428,7 +428,7 @@ public class DBDemo1 {
    * Connect to the DB and do some stuff
    */
   public static void main(String[] args) {
-    DBDemo2 app = new DBDemo2();
+    DBDemo1 app = new DBDemo1();
     app.run();
   }
   

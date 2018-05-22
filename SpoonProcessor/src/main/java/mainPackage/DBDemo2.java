@@ -1063,7 +1063,7 @@ for(CtType<?> clazz : classFactory.getAll()) {
 /*********************************************************************************************************************************************************************************/	
 /*********************************************************************************************************************************************************************************/   	
 //BUILD METHODSCALLED EXECUTED TABLE
-File file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\data.txt");
+File file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\data.txt");
 FileReader fileReader = new FileReader(file);
 BufferedReader bufferedReader = new BufferedReader(fileReader);
 StringBuffer stringBuffer = new StringBuffer();
@@ -1392,7 +1392,7 @@ try {
 /*********************************************************************************************************************************************************************************/   
 //CREATE REQUIREMENTS TABLE 
 
- file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\Requirements.txt");
+ file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\Requirements.txt");
  fileReader = new FileReader(file);
  bufferedReader = new BufferedReader(fileReader);
  stringBuffer = new StringBuffer();
@@ -1428,9 +1428,51 @@ catch (IOException e) {
 /*********************************************************************************************************************************************************************************/	
 /*********************************************************************************************************************************************************************************/	
 /*********************************************************************************************************************************************************************************/   
+String statement4 = "DELETE FROM `methodcalls` WHERE callername ='"+"CALLER"+"'";		
+st.executeUpdate(statement4);
+
+statement4 = "DELETE FROM `methodcalls` WHERE callername ='"+"CALLER2"+"'";		
+st.executeUpdate(statement4);
+
+
+String statement2 = "DELETE FROM `methods` WHERE id ='"+"741"+"'";		
+st.executeUpdate(statement2);	  
+String statement3 = "DELETE FROM `methods` WHERE id ='"+"742"+"'";		
+st.executeUpdate(statement3);
+statement3 = "DELETE FROM `methods` WHERE id ='"+"743"+"'";		
+st.executeUpdate(statement3);
+statement3 = "DELETE FROM `methods` WHERE id ='"+"744"+"'";		
+st.executeUpdate(statement3);
+
+
+String  statement10 = "ALTER TABLE `methods` AUTO_INCREMENT = 740";		
+st.executeUpdate(statement10);
+
+statement10 = "ALTER TABLE `methodcalls` AUTO_INCREMENT = 404";		
+	 st.executeUpdate(statement10);
+
+ statement10 = "INSERT INTO `methods`(`methodname`, `methodnamerefined`, `methodabbreviation`, `classid`, `classname`) VALUES ('"+"method"+"','" +"method"+"','" +"method"+"','"  +100+"','"+"mmmm" +"')";		
+st.executeUpdate(statement10);
+statement10 = "INSERT INTO `methods`(`methodname`, `methodnamerefined`, `methodabbreviation`, `classid`, `classname`) VALUES ('"+"method2"+"','" +"method2"+"','" +"method2"+"','"  +100+"','"+"mmmm" +"')";		
+st.executeUpdate(statement10);
+
+statement10 = "INSERT INTO `methods`(`methodname`, `methodnamerefined`, `methodabbreviation`, `classid`, `classname`) VALUES ('"+"method3"+"','" +"method3"+"','" +"method3"+"','"  +100+"','"+"mmmm" +"')";		
+st.executeUpdate(statement10);
+statement10 = "INSERT INTO `methods`(`methodname`, `methodnamerefined`, `methodabbreviation`, `classid`, `classname`) VALUES ('"+"method4"+"','" +"method4"+"','" +"method4"+"','"  +100+"','"+"mmmm" +"')";		
+st.executeUpdate(statement10);
+
+statement10 = "INSERT INTO `methodcalls`(`callermethodid`, `callername`, `callerclass`, `calleemethodid`, `calleename`,`calleeclass`) VALUES ('"+741+"','" +"CALLER"+"','" +"CALLER CLASS"+"','" +742+"','" +"CALLEE METH"+"','"+"CALLEE CLASS" +"')";		
+st.executeUpdate(statement10);
+statement10 = "INSERT INTO `methodcalls`(`callermethodid`, `callername`, `callerclass`, `calleemethodid`, `calleename`,`calleeclass`) VALUES ('"+743+"','" +"CALLER"+"','" +"CALLER CLASS"+"','" +742+"','" +"CALLEE METH"+"','"+"CALLEE CLASS" +"')";		
+st.executeUpdate(statement10);
+statement10 = "INSERT INTO `methodcalls`(`callermethodid`, `callername`, `callerclass`, `calleemethodid`, `calleename`,`calleeclass`) VALUES ('"+744+"','" +"CALLER2"+"','" +"CALLER CLASS"+"','" +742+"','" +"CALLEE METH"+"','"+"CALLEE CLASS" +"')";		
+st.executeUpdate(statement10);
+
+
+
 //CREATE TRACES TABLE 
 
- file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\Traces.txt");
+ file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\Traces.txt");
  fileReader = new FileReader(file);
  bufferedReader = new BufferedReader(fileReader);
  stringBuffer = new StringBuffer();
@@ -1532,7 +1574,7 @@ try {
 			
 			
 		tracesmethods tr= new tracesmethods(requirement, requirementid, shortmethod, methodid, classname, classid, gold, subject); 
-		if(methodid!=null && requirementid!=null && classid!=null) {
+		if(methodid!=null && requirementid!=null ) {
 			if(tr.contains(TraceListMethods, tr)==false) {
 				  
 				String statement = "INSERT INTO `traces`(`requirement`, `requirementid`, `method`, `fullmethod`, `methodid`,`classname`, `classid`, `gold`,  `subject`, `goldpredictioncallee`, `goldpredictioncaller`) VALUES ('"+requirement+"','" +requirementid+"','" +shortmethod+"','" +method+"','" +methodid+"','"+classname +"','" +classid+"','"+gold +"','" +subject+"','" +goldprediction+"','" +goldprediction+"')";		
@@ -1569,7 +1611,7 @@ catch (IOException e) {
 /*********************************************************************************************************************************************************************************/   
 //make prediction on the column goldprediction 
 int counter=0;
-
+/*
 for(tracesmethodscallees tc: TracesCalleesList) {
 	
 
@@ -1616,7 +1658,7 @@ for(tracesmethodscallees tc: TracesCallersList) {
 	
 	
 }
-
+*/
 
 	/*********************************************************************************************************************************************************************************/	
 	/*********************************************************************************************************************************************************************************/	
@@ -1626,7 +1668,7 @@ for(tracesmethodscallees tc: TracesCallersList) {
 List<RequirementClassKey> RequirementClassKeys= new ArrayList<RequirementClassKey>(); 
 	
 try {
-		file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\Traces.txt");
+		file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\Traces.txt");
 		fileReader = new FileReader(file);
 		bufferedReader = new BufferedReader(fileReader);	
 		line = bufferedReader.readLine(); 
@@ -1707,8 +1749,8 @@ try {
 				RequirementClassKey.setSubjectflag(subjectvalue); 
 			}
 			if(RequirementClassKey.contains(RequirementClassKeys, RequirementClassKey)==false) {
-				String statement2= "INSERT INTO `tracesclasses`(`requirement`, `requirementid`,  `classname`, `classid`, `gold`,  `subject`) VALUES ('"+requirement+"','" +requirementid+"','"  +classname+"','" +classid+"','"+GoldHashTable.get(RequirementClassKey) +"','" +SubjectHashTable.get(RequirementClassKey)+"')";	
-				st.executeUpdate(statement2); 
+				String statement8= "INSERT INTO `tracesclasses`(`requirement`, `requirementid`,  `classname`, `classid`, `gold`,  `subject`) VALUES ('"+requirement+"','" +requirementid+"','"  +classname+"','" +classid+"','"+GoldHashTable.get(RequirementClassKey) +"','" +SubjectHashTable.get(RequirementClassKey)+"')";	
+				st.executeUpdate(statement8); 
 				RequirementClassKeys.add(RequirementClassKey); 
 			}
 		

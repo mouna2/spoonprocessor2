@@ -19,7 +19,7 @@ public class TableTracesClasses {
 	public void tracesclasses(Statement st, ClassFactory classFactory) throws SQLException {List<RequirementClassKey> RequirementClassKeys= new ArrayList<RequirementClassKey>(); 
 	
 try {
-		File file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\Traces.txt");
+		File file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\Traces.txt");
 		FileReader fileReader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);	
 		String line = bufferedReader.readLine(); 

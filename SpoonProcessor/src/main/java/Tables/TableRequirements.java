@@ -13,7 +13,7 @@ public class TableRequirements {
 
 	public void requirements(Statement st, ClassFactory classFactory) throws FileNotFoundException, SQLException {
 		
-		File file = new File("C:\\Users\\mouna\\eclipse-workspace\\SpoonProcessor\\Requirements.txt");
+		File file = new File("C:\\Users\\mouna\\git\\spoonprocessor2\\SpoonProcessor\\Requirements.txt");
 	 FileReader fileReader = new FileReader(file);
 	 BufferedReader bufferedReader = new BufferedReader(fileReader);
 	 StringBuffer stringBuffer = new StringBuffer();
