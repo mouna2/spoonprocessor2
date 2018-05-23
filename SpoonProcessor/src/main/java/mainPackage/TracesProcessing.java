@@ -25,12 +25,12 @@ public class TracesProcessing {
 			rowcount = var.getString("count(*)"); }
 		System.out.println("ROW COUNT::::::"+rowcount); 
 		int rowcountint= Integer.parseInt(rowcount); 
-		int row=1; 
+		int row=0; 
 		String id=null;
 		
 
 		
-		while(row<rowcountint) {
+		while(row<=rowcountint) {
 			ResultSet ids = st.executeQuery("SELECT traces.id from traces where id='"+row+"'"); 
 			while(ids.next()){
 				id = ids.getString("id"); }
