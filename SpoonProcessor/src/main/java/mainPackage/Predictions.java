@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import com.mysql.jdbc.FailoverConnectionProxy;
 
 import Tables.TableTraces;
+import Tables.tracesmethods;
 import Tables.tracesmethodscallees;
 import spoon.Launcher;
 import spoon.SpoonAPI;
@@ -112,7 +113,15 @@ public class Predictions {
 	      int counter=0;
 	      traces.ProcessTraces(st, classFactory); 
 	      List<tracesmethodscallees> TracesCalleesList = traces.getTracesCalleesList(); 
-	    
+	   List<tracesmethods> mylist = traces.getTracesList(); 
+	      
+	     tracesmethods tracesmethods = new tracesmethods(); 
+	     tracesmethods.toString(mylist); 
+	      
+	      
+	      
+	      
+	      
 		  
 	      for(tracesmethodscallees tc: TracesCalleesList) {
 	      	

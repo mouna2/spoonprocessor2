@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mysql.jdbc.Statement;
 
+import Tables.CallerIDName;
 import Tables.tracesmethods;
 import Tables.tracesmethodscallees;
 import spoon.reflect.factory.ClassFactory;
@@ -15,6 +16,8 @@ public class TracesProcessing {
 	
 	 List<tracesmethodscallees> TracesCalleesList= new ArrayList<tracesmethodscallees>();
 	 List<tracesmethodscallees> TracesCallersList= new ArrayList<tracesmethodscallees>();
+	
+	 List<tracesmethods> TracesList = new ArrayList<tracesmethods>(); 
 	public void ProcessTraces(java.sql.Statement st, ClassFactory classfactory) throws SQLException {
 		// Rule: if method A calls method B and method A implements requirement X, then I can just assume that method B implements requirement X as well 
 		// Retrieving the calleeid
@@ -31,6 +34,13 @@ public class TracesProcessing {
 
 		
 		while(row<=rowcountint) {
+			 List<CallerIDName>  Callers= new ArrayList<CallerIDName>(); 
+			 List<CallerIDName>  CallersExecuted= new ArrayList<CallerIDName>(); 
+			 List<CallerIDName>  Callees= new ArrayList<CallerIDName>(); 
+			 List<CallerIDName>  CalleesExecuted= new ArrayList<CallerIDName>(); 
+			
+			
+			
 			ResultSet ids = st.executeQuery("SELECT traces.id from traces where id='"+row+"'"); 
 			while(ids.next()){
 				id = ids.getString("id"); }
@@ -60,7 +70,9 @@ public class TracesProcessing {
 			
 			ResultSet shortmethods = st.executeQuery("SELECT traces.method from traces where id='"+row+"'"); 
 			while(shortmethods.next()){
-				shortmethod = shortmethods.getString("method"); }
+				shortmethod = shortmethods.getString("method"); 
+				System.out.println("SHORT METHOD"+ shortmethod); 
+			}
 			
 	String classname=null; 
 			
@@ -88,34 +100,57 @@ public class TracesProcessing {
 			
 			ResultSet classids = st.executeQuery("SELECT traces.classid from traces where id='"+row+"'"); 
 			while(classids.next()){
-				classid = classids.getString("classid"); }	
+				classid = classids.getString("classid"); 
+				
+			}	
 			
 			
-			
+			String calleename=null; 
 			String calleeid=null; 
-				ResultSet calleesparsed = st.executeQuery("SELECT methodcalls.calleemethodid from methodcalls where methodcalls.callermethodid ='"+methodid+"'"); 
+				ResultSet calleesparsed = st.executeQuery("SELECT methodcalls.* from methodcalls where methodcalls.callermethodid ='"+methodid+"'"); 
 				while(calleesparsed.next()){
-					 calleeid = calleesparsed.getString("calleemethodid"); }
+					 calleeid = calleesparsed.getString("calleemethodid");
+					 calleename = calleesparsed.getString("calleename"); 	 
+					 System.out.println("calleename: "+calleename+ "calleeid: "+calleeid); 
+					 CallerIDName call= new CallerIDName(calleeid.toString(), calleename); 
+					 Callees.add(call); 
+					 }
 				
 				
+			
 				String calleeidexecuted = null; 	
-				ResultSet calleesexecuted = st.executeQuery("SELECT methodcallsexecuted.calleemethodid from methodcallsexecuted where methodcallsexecuted.callermethodid ='"+methodid+"'"); 
+				String calleenameexecuted = null; 	
+				ResultSet calleesexecuted = st.executeQuery("SELECT methodcallsexecuted.* from methodcallsexecuted where methodcallsexecuted.callermethodid ='"+methodid+"'"); 
 				while(calleesexecuted.next()){
 					 calleeidexecuted = calleesexecuted.getString("calleemethodid"); 
-					   }
+					 calleenameexecuted = calleesexecuted.getString("calleename"); 	 
+					 System.out.println("calleename: "+calleename+ "calleeid: "+calleeidexecuted); 
+					 CallerIDName call= new CallerIDName(calleeidexecuted.toString(), calleenameexecuted); 
+					 CalleesExecuted.add(call); 
+				}
 				
-				
+				String callername=null; 
 				String	callerid=null; 
-				ResultSet callersparsed = st.executeQuery("SELECT methodcalls.callermethodid from methodcalls where methodcalls.calleemethodid ='"+methodid+"'"); 
+				ResultSet callersparsed = st.executeQuery("SELECT methodcalls.* from methodcalls where methodcalls.calleemethodid ='"+methodid+"'"); 
 				while(callersparsed.next()){
-					  callerid = callersparsed.getString("callermethodid"); }
+					  callerid = callersparsed.getString("callermethodid"); 
+					  callername = callersparsed.getString("callername"); 
+					  System.out.println("callerid: "+callerid+ "callername: "+callername); 
+					  CallerIDName call= new CallerIDName(callerid.toString(), callername); 
+					  Callers.add(call); 
+				}
 				
 				
-				String	callerexecutedid=null; 	   
-				ResultSet callersexecuted = st.executeQuery("SELECT methodcallsexecuted.callermethodid from methodcallsexecuted where methodcallsexecuted.calleemethodid ='"+methodid+"'"); 
+				String	callerexecutedid=null; 	
+				String	callerexecutedname=null; 	   
+				ResultSet callersexecuted = st.executeQuery("SELECT methodcallsexecuted.* from methodcallsexecuted where methodcallsexecuted.calleemethodid ='"+methodid+"'"); 
 				while(callersexecuted.next()){
 					 callerexecutedid = callersexecuted.getString("callermethodid"); 
-					   }
+					 callerexecutedname = callersexecuted.getString("callername"); 
+					  System.out.println("callerexecutedid: "+callerexecutedid+ "callerexecutedname: "+callerexecutedname); 
+					  CallerIDName call= new CallerIDName(callerexecutedid.toString(), callerexecutedname); 
+					  CallersExecuted.add(call); 
+				}
 				
 				
 				
@@ -142,6 +177,11 @@ public class TracesProcessing {
 					 tmc= new tracesmethodscallees(requirement, requirementid, shortmethod, methodid, classname, classid, gold, subject, callerexecutedid); 
 					 TracesCallersList.add(tmc); 
 				}
+				if(methodid!=null && requirementid!=null && classid!=null && subject!=null ) {
+					tracesmethods tracem= new tracesmethods(methodid, requirement, requirementid, shortmethod, classname, classid, gold, subject, Callees, Callees.size(),  CalleesExecuted, CalleesExecuted.size(), Callers, Callers.size(), CallersExecuted
+							, CallersExecuted.size()); 
+					TracesList.add(tracem); 
+				}
 				
 				
 				setTracesCallersList(TracesCallersList);
@@ -149,6 +189,18 @@ public class TracesProcessing {
 				row++; 
 		}
 		
+		
+		setTracesList(TracesList);
+		
+		
+	}
+
+	public List<tracesmethods> getTracesList() {
+		return TracesList;
+	}
+
+	public void setTracesList(List<tracesmethods> tracesList) {
+		TracesList = tracesList;
 	}
 
 	public List<tracesmethodscallees> getTracesCalleesList() {
