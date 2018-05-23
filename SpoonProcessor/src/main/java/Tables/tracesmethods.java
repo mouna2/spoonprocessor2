@@ -225,7 +225,7 @@ public class tracesmethods {
 			System.out.println("CALLEES"); 
 			if(var2.Callees!=null) {
 				for(CallerIDName var: var2.Callees) {
-					System.out.println( " Callee ID=" + var.ID + ", Callee NAME=" + var.Name	 + "]");
+					System.out.println( " Callee ID=" + var.ID + ", Callee NAME=" + var.Name	 +    "]");
 						
 				}
 			}
@@ -233,7 +233,7 @@ public class tracesmethods {
 			System.out.println("CALLEES EXECUTED"); 
 			if(var2.CalleesExecuted!=null) {
 				for(CallerIDName var: var2.CalleesExecuted) {
-					System.out.println( "CALLEES EXECUTED" + ", Callee Executed ID=" + var.ID + ", Callee Executed NAME=" + var.Name+ "]");
+					System.out.println( "CALLEES EXECUTED" + ", Callee Executed ID=" + var.ID + ", Callee Executed NAME=" + var.Name+    "]");
 							 
 				}
 			}
@@ -241,7 +241,7 @@ public class tracesmethods {
 			System.out.println("CALLERS"); 
 			if(var2.Callers!=null) {
 				for(CallerIDName var: var2.Callers) {
-					System.out.println( "CALLERS" + ", Caller ID=" + var.ID + ", Caller NAME=" + var.Name + "]");
+					System.out.println( "CALLERS" + ", Caller ID=" + var.ID + ", Caller NAME=" + var.Name +     "]");
 							
 				}
 			}
