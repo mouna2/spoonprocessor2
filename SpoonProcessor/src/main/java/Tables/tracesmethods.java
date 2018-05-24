@@ -4,11 +4,10 @@ import java.util.List;
 
 public class tracesmethods {
 	public String methodid; 
-
+	
 	public String requirement; 
 	public String requirementid; 
 	public String fullmethod; 
-	
 	public String classname; 
 	public String classid; 
 	public String gold; 
