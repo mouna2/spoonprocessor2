@@ -1,12 +1,15 @@
 package mainPackage;
 
 public class Requirement {
+	int ID; 
 	public String RequirementName;
-
-	public Requirement(String requirementName) {
+	public Requirement(int iD, String requirementName) {
 		super();
+		ID = iD;
 		RequirementName = requirementName;
-	} 
+	}
+
+	
 	
 	
 	

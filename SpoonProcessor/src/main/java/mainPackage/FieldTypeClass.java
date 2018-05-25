@@ -1,18 +1,22 @@
 package mainPackage;
 
 public class FieldTypeClass {
-	
+	int ID; 
 	 String VariableName;
 	 Class fieldType; 
-	 Class ClassLocation;
-	 
-	 
-	public FieldTypeClass(String variableName, Class fieldType, Class classLocation) {
+	 Class OwnerClass;
+	public FieldTypeClass(int iD, String variableName, Class fieldType, Class ownerClass) {
 		super();
-		this.VariableName = variableName;
+		ID = iD;
+		VariableName = variableName;
 		this.fieldType = fieldType;
-		this.ClassLocation = classLocation;
+		OwnerClass = ownerClass;
 	} 
+	
+	
+	 
+	 
+	
 	 
 	 
 	
