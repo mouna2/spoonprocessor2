@@ -28,6 +28,7 @@ public class DatabaseReading {
 	public static  HashMap<Integer, String> classesHashMap = new HashMap<Integer, String>();
 	public static  HashMap<Integer, FieldTypeClass> FieldClassesHashMap = new HashMap<Integer, FieldTypeClass>();
 	public static  HashMap<Integer, Method> MethodsHashMap = new HashMap<Integer, Method>();
+	public static  HashMap<Integer, Requirement> RequirementsHashMap = new HashMap<Integer, Requirement>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -255,7 +256,58 @@ public class DatabaseReading {
 		 for(Integer key: keys){
 	            System.out.println("Value of "+key+" is: "+ resultMethods.get(key).methodName+ "   "+resultMethods.get(key).Class.ID+ "   "+resultMethods.get(key).Class.ClassName);
 	        }
-		 
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	        //REQUIREMENTSHASHMAP
+		 rowcount = null; 
+		 String requirementname=null; 
+		 var = st.executeQuery("select count(*) from requirements"); 
+		while(var.next()){
+			rowcount = var.getString("count(*)");
+			}
+		System.out.println("ROW COUNT::::::"+rowcount); 
+		 rowcountint= Integer.parseInt(rowcount); 
+		
+		 id=null;
+		 classname=null; 
+		
+			 row=1; 
+				
+				while(row<=rowcountint) {
+					ResultSet requirements = st.executeQuery("SELECT requirements.* from requirements where id='"+row+"'"); 
+					
+					
+					while(requirements.next() ){
+						id = requirements.getString("id"); 
+						int ID2 = Integer.parseInt(id); 
+						requirementname = requirements.getString("requirementname"); 
+						
+						
+						
+						
+						
+						 
+						 	
+						
+						Requirement requirement = new Requirement(requirementname); 	
+						RequirementsHashMap.put(row, requirement);  
+						row++;
+						requirements = st.executeQuery("SELECT requirements.* from requirements where id='"+row+"'"); 	 
+						 
+					}
+					//fieldclasses.close();
+				}
+				
+			
+		 keys = RequirementsHashMap.keySet();
+		Map<Integer, Requirement> resultRequirements = RequirementsHashMap.entrySet().stream()
+		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		
+		 for(Integer key: keys){
+	            System.out.println("============================>Value of "+key+" is: "+ resultRequirements.get(key).RequirementName);
+	        }
 		 
 		
 	}
