@@ -191,7 +191,9 @@ public class DatabaseReading {
 	            System.out.println("Value of "+key+" is: "+ resultFieldClasses.get(key).VariableName+ "   "+resultFieldClasses.get(key).ClassLocation+ "   "+resultFieldClasses.get(key).fieldType);
 	        }
 	
-	      
+		 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	        //METHODSHASHMAP
 		
 	}
 	public static void main(String[] args) throws SQLException {
