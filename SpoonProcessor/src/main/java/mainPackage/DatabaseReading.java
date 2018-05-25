@@ -32,6 +32,8 @@ public class DatabaseReading {
 	public static  HashMap<Integer, Interfaces> InterfaceHashMap = new HashMap<Integer, Interfaces>();
 	public static  HashMap<Integer, FieldTypeClass> FieldTypeClasses = new HashMap<Integer, FieldTypeClass>();
 	public static  HashMap<Integer, FieldMethods> FieldMethodsHashMap = new HashMap<Integer, FieldMethods>();
+	public static  HashMap<Integer, MethodCalls> MethodCallsHashMap = new HashMap<Integer, MethodCalls>();
+	public static  HashMap<Integer, MethodCalls> MethodCallsEXECUTEDHashMap= new HashMap<Integer, MethodCalls>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -67,7 +69,7 @@ public class DatabaseReading {
 	}
 
 	
-	public static void Read(java.sql.Statement st) throws SQLException {
+	public static void Read(java.sql.Statement st, java.sql.Statement st2) throws SQLException {
 		// Rule: if method A calls method B and method A implements requirement X, then I can just assume that method B implements requirement X as well 
 		// Retrieving the calleeid
 		DatabaseReading db = new DatabaseReading(); 
@@ -454,9 +456,186 @@ public class DatabaseReading {
 		 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FIELD METHODS 		 
-		 
-		 
+//METHOD CALLS 
+		 rowcount = null; 
+		 String CallerMethodID=null; 
+			String callername=null; 
+			String callerclass=null; 
+		// String CalleeMethodID=null; 
+				//String calleename=null; 
+				//String calleeclass=null; 
+				int CallerMethodID2; 
+				//int CalleeMethodID2; 
+				MethodCalls METHODCALLS=null; 
+		  classname=null; 
+		 var = st.executeQuery("select count(*) from methodcalls"); 
+		while(var.next()){
+			rowcount = var.getString("count(*)");
+			}
+		System.out.println("ROW COUNT::::::"+rowcount); 
+		 rowcountint= Integer.parseInt(rowcount); 
+		
+		 id=null;
+		 classname=null; 
+		
+		
+			 row=1; 
+			 Class calleeCLASS = null; 
+			 Class callerCLASS = null; 
+			 while(row<=rowcountint) {
+				 ResultSet methodcalls = st.executeQuery("SELECT methodcalls.* from methodcalls where id='"+row+"'"); 
+
+
+				 while(methodcalls.next() ){
+					 id = methodcalls.getString("id"); 
+					 int methodcallsID = Integer.parseInt(id); 
+
+					 CallerMethodID= methodcalls.getString("callermethodid"); 
+					 CallerMethodID2= Integer.parseInt(CallerMethodID); 
+					 callername= methodcalls.getString("callername"); 
+					 callerclass= methodcalls.getString("callerclass"); 
+					 ResultSet classes = st2.executeQuery("SELECT classes.* from classes where classname='"+callerclass+"'"); 
+					 while(classes.next()) {
+						 String classid= classes.getString("id"); 
+						 int classid2= Integer.parseInt(classid); 
+						 callerCLASS= new Class(classid2, callerclass);							
+					 }
+					 
+					 String	 CalleeMethodID= methodcalls.getString("calleemethodid"); 
+					 int CalleeMethodID2= Integer.parseInt(CalleeMethodID); 
+					 String	 calleename= methodcalls.getString("calleename"); 
+					 String	 calleeclass= methodcalls.getString("calleeclass"); 
+					 classes = st.executeQuery("SELECT classes.* from classes where classname='"+calleeclass+"'"); 
+					 while(classes.next()) {
+						 String classid= classes.getString("id"); 
+						 int classid2= Integer.parseInt(classid); 
+						 calleeCLASS= new Class(classid2, calleeclass); 
+
+					 }
+					 Method MethodCaller= new Method(CallerMethodID2,callername, callerCLASS ); 
+					 Method MethodCallee= new Method(CalleeMethodID2,calleename, calleeCLASS ); 
+
+
+					 METHODCALLS= new MethodCalls(row, MethodCaller, MethodCallee); 
+
+
+					 MethodCallsHashMap.put(row, METHODCALLS);  
+					 row++;
+					 methodcalls = st.executeQuery("SELECT methodcalls.* from methodcalls where id='"+row+"'"); 
+
+				 }
+				 //fieldclasses.close();
+			 }
+				
+			
+		 keys = MethodCallsHashMap.keySet();
+		Map<Integer, MethodCalls> MethodCallsMap = MethodCallsHashMap.entrySet().stream()
+		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		
+		 for(Integer key: keys){
+	            System.out.println("============================>Value of "+MethodCallsMap.get(key).ID+" is: " + "  fieldaccess  "  +MethodCallsMap.get(key).CalleeMethod.ID +"   " +MethodCallsMap.get(key).CalleeMethod.methodName+ 
+	            		"  "+MethodCallsMap.get(key).CalleeMethod.Class.ClassName+ "  "+		"  "+MethodCallsMap.get(key).CallerMethod.ID+ "  "+
+	            		MethodCallsMap.get(key).CallerMethod.methodName+ 
+	            		"  "+MethodCallsMap.get(key).CallerMethod.Class.ClassName);
+	        }	 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//METHOD CALLS 
+		  rowcount = null; 
+		 String CallerMethodIDEXECUTED=null; 
+			String callernameEXECUTED=null; 
+			String callerclassEXECUTED=null; 
+		// String CalleeMethodID=null; 
+				//String calleename=null; 
+				//String calleeclass=null; 
+				int CallerMethodID2EXECUTED; 
+				//int CalleeMethodID2; 
+				MethodCalls METHODCALLSEXECUTED=null; 
+		  classname=null; 
+		
+		// int CalleeMethodID2;
+		
+		  
+		  
+		  
+		  
+		var = st.executeQuery("select count(*) from methodcallsexecuted");
+		while (var.next()) {
+			rowcount = var.getString("count(*)");
+		}
+		System.out.println("ROW COUNT::::::" + rowcount);
+		rowcountint = Integer.parseInt(rowcount);
+
+		id = null;
+		classname = null;
+
+		row = 1;
+		Class calleeCLASSEXECUTED = null;
+		Class callerCLASSEXECUTED = null;
+	
+		while (row <= rowcountint) {
+			System.out.println("THIS ROW: =====================>"+row);
+			ResultSet methodcallsEXECUTED = st.executeQuery("SELECT methodcallsexecuted.* from methodcallsexecuted where id='" + row + "'");
+
+			while (methodcallsEXECUTED.next()) {
+				id = methodcallsEXECUTED.getString("id");
+				int methodcallsIDEXECUTED = Integer.parseInt(id);
+
+				CallerMethodID = methodcallsEXECUTED.getString("callermethodid");
+				CallerMethodID2 = Integer.parseInt(CallerMethodID);
+				callername = methodcallsEXECUTED.getString("callername");
+				callerclass = methodcallsEXECUTED.getString("callerclass");
+				ResultSet classes = st2
+						.executeQuery("SELECT classes.* from classes where classname='" + callerclass + "'");
+				while (classes.next()) {
+					String classid = classes.getString("id");
+					int classid2 = Integer.parseInt(classid);
+					callerCLASS = new Class(classid2, callerclass);
+				}
+
+				String CalleeMethodID = methodcallsEXECUTED.getString("calleemethodid");
+				int CalleeMethodID2 = Integer.parseInt(CalleeMethodID);
+				String calleename = methodcallsEXECUTED.getString("calleename");
+				String calleeclass = methodcallsEXECUTED.getString("calleeclass");
+				classes = st2.executeQuery("SELECT classes.* from classes where classname='" + calleeclass + "'");
+				while (classes.next()) {
+					String classid = classes.getString("id");
+					int classid2 = Integer.parseInt(classid);
+					calleeCLASS = new Class(classid2, calleeclass);
+
+				}
+				Method MethodCaller = new Method(CallerMethodID2, callername, callerCLASS);
+				Method MethodCallee = new Method(CalleeMethodID2, calleename, calleeCLASS);
+
+				METHODCALLS = new MethodCalls(row, MethodCaller, MethodCallee);
+
+				MethodCallsEXECUTEDHashMap.put(row, METHODCALLS);
+				row++;
+				//methodcallsEXECUTED = st.executeQuery("SELECT methodcallsexecuted.* from methodcallsexecuted where id='" + row + "'");
+
+			}
+			// fieldclasses.close();
+		}
+
+		keys = MethodCallsEXECUTEDHashMap.keySet();
+		Map<Integer, MethodCalls> MethodCallsEXECUTEDMap = MethodCallsEXECUTEDHashMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
+						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+		for (Integer key : keys) {
+			System.out.println("============================>Value of " + MethodCallsEXECUTEDMap.get(key).ID + " is: "
+					+ "  fieldaccess  " + MethodCallsEXECUTEDMap.get(key).CalleeMethod.ID + "   "
+					+ MethodCallsEXECUTEDMap.get(key).CalleeMethod.methodName + "  "
+					+ MethodCallsEXECUTEDMap.get(key).CalleeMethod.Class.ClassName + "  " + "  "
+					+ MethodCallsEXECUTEDMap.get(key).CallerMethod.ID + "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.methodName
+					+ "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.Class.ClassName);
+		}	 
+		
+		
+		
+		
 	}
 	public static void main(String[] args) throws SQLException {
 	
@@ -465,8 +644,9 @@ public class DatabaseReading {
 		DatabaseReading DatabaseReading= new DatabaseReading(); 
 		conn = DatabaseReading.getConnection();
 		Statement st= conn.createStatement();
+		Statement st2= conn.createStatement();
 		// TODO Auto-generated method stub
-		Read(st);
+		Read(st, st2);
 	}
 
 	

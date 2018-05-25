@@ -2,12 +2,12 @@ package mainPackage;
 
 public class MethodCalls {
 	int ID; 
-	Method CallingMethod; 
+	Method CallerMethod; 
 	Method CalleeMethod;
-	public MethodCalls(int iD, Method callingMethod, Method calleeMethod) {
+	public MethodCalls(int iD, Method callerMethod, Method calleeMethod) {
 		super();
 		ID = iD;
-		CallingMethod = callingMethod;
+		CallerMethod = callerMethod;
 		CalleeMethod = calleeMethod;
 	}
 	
