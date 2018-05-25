@@ -27,6 +27,7 @@ import spoon.reflect.factory.ClassFactory;
 public class DatabaseReading {
 	public static  HashMap<Integer, String> classesHashMap = new HashMap<Integer, String>();
 	public static  HashMap<Integer, FieldTypeClass> FieldClassesHashMap = new HashMap<Integer, FieldTypeClass>();
+	public static  HashMap<Integer, Method> MethodsHashMap = new HashMap<Integer, Method>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -194,6 +195,68 @@ public class DatabaseReading {
 		 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	        //METHODSHASHMAP
+		 rowcount = null; 
+		 var = st.executeQuery("select count(*) from methods"); 
+		while(var.next()){
+			rowcount = var.getString("count(*)");
+			}
+		System.out.println("ROW COUNT::::::"+rowcount); 
+		 rowcountint= Integer.parseInt(rowcount); 
+		
+		 id=null;
+		 classname=null; 
+		 String methodname = null; 
+			 row=1; 
+				
+				while(row<=rowcountint) {
+					ResultSet methods = st.executeQuery("SELECT methods.* from methods where id='"+row+"'"); 
+					
+					
+					while(methods.next() ){
+						id = methods.getString("id"); 
+						int ID2 = Integer.parseInt(id); 
+						methodname = methods.getString("methodname"); 
+						String classid = methods.getString("classid"); 
+						
+						
+						
+						 ResultSet myresults = st.executeQuery("SELECT classes.* from classes where id='"+classid+"'"); 
+						 while(myresults.next()) {
+							     id = myresults.getString("id"); 
+								 ID2 = Integer.parseInt(id); 
+								 classname = myresults.getString("classname"); 
+								 System.out.println("HERE IS AN ID FOR THE CLASS=========> "+ID2); 
+								 System.out.println("CLASSNAME=========> "+classname); 
+								 Class myclass = new Class(ID2, classname); 
+								 Method Method = new Method(methodname, myclass); 
+								 MethodsHashMap.put(row, Method); 
+								
+									row++; 
+						 }
+						 
+						 
+						 	
+						 methods = st.executeQuery("SELECT methods.* from methods where id='"+row+"'"); 
+							
+							 
+							 
+						
+					}
+					//fieldclasses.close();
+				}
+				
+			
+		 keys = MethodsHashMap.keySet();
+		Map<Integer, Method> resultMethods = MethodsHashMap.entrySet().stream()
+		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		
+		 for(Integer key: keys){
+	            System.out.println("Value of "+key+" is: "+ resultMethods.get(key).methodName+ "   "+resultMethods.get(key).Class.ID+ "   "+resultMethods.get(key).Class.ClassName);
+	        }
+		 
+		 
 		
 	}
 	public static void main(String[] args) throws SQLException {
