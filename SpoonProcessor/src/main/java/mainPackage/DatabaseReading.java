@@ -35,6 +35,7 @@ public class DatabaseReading {
 	public static  HashMap<Integer, MethodCalls> MethodCallsHashMap = new HashMap<Integer, MethodCalls>();
 	public static  HashMap<Integer, MethodCalls> MethodCallsEXECUTEDHashMap= new HashMap<Integer, MethodCalls>();
 	public static  HashMap<Integer, SuperClasses> SuperClassesHashMap= new HashMap<Integer, SuperClasses>();
+	public static  HashMap<Integer, Parameter> ParameterHashMap= new HashMap<Integer, Parameter>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -707,7 +708,101 @@ public class DatabaseReading {
 					+ SuperClassesMap.get(key).ChildClass.ID + "  " + "  "
 					+ SuperClassesMap.get(key).ChildClass.ClassName + "  " );
 		}	
-		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// PARAMETERS
+		rowcount = null;
+
+		classname = null;
+		int ParameterIDINT; 
+		int parameterclassidINT;  
+		// int CalleeMethodID2;
+		String parameterclassid; 
+		String parameterName ;
+		String parameterType; 
+		String classid; 
+	
+		String isReturn; 
+		int isReturnINT; 
+		int classidINT; 
+		String methodid; 
+		int methodidINT; 
+		var = st.executeQuery("select count(*) from parameters");
+		while (var.next()) {
+			rowcount = var.getString("count(*)");
+		}
+		System.out.println("ROW COUNT::::::" + rowcount);
+		rowcountint = Integer.parseInt(rowcount);
+
+		id = null;
+		classname = null;
+
+		row = 1;
+
+		while (row <= rowcountint) {
+			System.out.println("THIS ROW: =====================>" + row);
+			ResultSet parameters = st.executeQuery("SELECT parameters.* from parameters where id='" + row + "'");
+
+			while (parameters.next()) {
+				String parameterID = parameters.getString("id");
+				ParameterIDINT = Integer.parseInt(parameterID);
+
+				 parameterName = parameters.getString("parametername");
+
+				
+				 parameterType = parameters.getString("parametertype");
+				 
+				 parameterclassid = parameters.getString("parameterclass");
+				parameterclassidINT = Integer.parseInt(parameterclassid);
+
+				 classid = parameters.getString("classid");
+				 classidINT = Integer.parseInt(classid); 
+				 
+				 classname = parameters.getString("classname");
+				 
+				 
+				 methodid = parameters.getString("methodid");
+				 methodidINT = Integer.parseInt(methodid); 
+				 
+				 
+				 methodname = parameters.getString("methodname");
+				
+				 isReturn = parameters.getString("isreturn");
+				 isReturnINT= Integer.parseInt(isReturn); 
+				 
+				 Class ParameterClass= new Class(parameterclassidINT, parameterType); 
+				 Class OwnerClassParam= new Class(classidINT, classname); 
+				 Method parameterMethod= new Method(methodidINT, methodname, OwnerClassParam); 
+
+				 
+				 Parameter param= new Parameter(row, parameterName, ParameterClass, parameterMethod, isReturnINT); 
+				ParameterHashMap.put(row, param);
+				row++;
+				// methodcallsEXECUTED = st.executeQuery("SELECT methodcallsexecuted.* from
+				// methodcallsexecuted where id='" + row + "'");
+
+			}
+			// fieldclasses.close();
+		}
+
+		keys = ParameterHashMap.keySet();
+		Map<Integer, Parameter> ParametersMap = ParameterHashMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
+						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+		for (Integer key : keys) {
+			System.out.println("============================>ID:  " + ParametersMap.get(key).ID + " is: "
+					+ " ----- parameter name  " + ParametersMap.get(key).ParameterName + "  parameterclassID "
+					+ ParametersMap.get(key).ParameterClass.ID + " parameter classname " + ParametersMap.get(key).ParameterClass.ClassName 
+				
+					+
+					" ----- Parameter METHOD ID  "+ ParametersMap.get(key).Method.ID +
+					" ------ Parameter METHOD Name  "+ ParametersMap.get(key).Method.methodName+
+					"  ------Parameter METHOD Name Class id  "+ ParametersMap.get(key).Method.Class.ID
+					+
+					" ------ Parameter METHOD Name Class name  "+ ParametersMap.get(key).Method.Class.ClassName+
+					"-------- Parameter isreturn: "+ ParametersMap.get(key).IsReturn);
+		}
 		
 	}
 	public static void main(String[] args) throws SQLException {
