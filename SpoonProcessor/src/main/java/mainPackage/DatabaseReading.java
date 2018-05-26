@@ -34,6 +34,7 @@ public class DatabaseReading {
 	public static  HashMap<Integer, FieldMethods> FieldMethodsHashMap = new HashMap<Integer, FieldMethods>();
 	public static  HashMap<Integer, MethodCalls> MethodCallsHashMap = new HashMap<Integer, MethodCalls>();
 	public static  HashMap<Integer, MethodCalls> MethodCallsEXECUTEDHashMap= new HashMap<Integer, MethodCalls>();
+	public static  HashMap<Integer, SuperClasses> SuperClassesHashMap= new HashMap<Integer, SuperClasses>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -542,7 +543,7 @@ public class DatabaseReading {
 	        }	 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//METHOD CALLS 
+//METHOD CALLS EXECUTED
 		  rowcount = null; 
 		 String CallerMethodIDEXECUTED=null; 
 			String callernameEXECUTED=null; 
@@ -633,7 +634,79 @@ public class DatabaseReading {
 					+ "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.Class.ClassName);
 		}	 
 		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SUPERCLASSES
+		rowcount = null; 
 		
+		classname=null; 
+
+		// int CalleeMethodID2;
+		String SuperClassID=null; 
+		int SuperClassIDINT; 
+		String SuperClassName=null; 
+		String ChildClassName=null; 
+		String ChildClassID; 
+		int ChildClassIDINT; 
+		var = st.executeQuery("select count(*) from superclasses");
+		while (var.next()) {
+			rowcount = var.getString("count(*)");
+		}
+		System.out.println("ROW COUNT::::::" + rowcount);
+		rowcountint = Integer.parseInt(rowcount);
+
+		id = null;
+		classname = null;
+
+		row = 1;
+	
+
+		while (row <= rowcountint) {
+			System.out.println("THIS ROW: =====================>"+row);
+			ResultSet superclasses = st.executeQuery("SELECT superclasses.* from superclasses where id='" + row + "'");
+
+			while (superclasses.next()) {
+				SuperClassID = superclasses.getString("superclassid");
+				SuperClassIDINT = Integer.parseInt(SuperClassID);
+
+				
+				SuperClassName = superclasses.getString("superclassname");
+				
+				
+				ChildClassID = superclasses.getString("ownerclassid");
+				ChildClassIDINT = Integer.parseInt(ChildClassID);
+
+				
+				ChildClassName = superclasses.getString("childclassname");
+				
+				
+				
+			
+				
+				Class SuperClass= new Class(SuperClassIDINT, SuperClassName); 
+				Class ChildClass= new Class(ChildClassIDINT, ChildClassName); 
+				SuperClasses SUPERCLASSES = new SuperClasses(row, SuperClass, ChildClass); 
+
+				SuperClassesHashMap.put(row, SUPERCLASSES);
+				row++;
+				//methodcallsEXECUTED = st.executeQuery("SELECT methodcallsexecuted.* from methodcallsexecuted where id='" + row + "'");
+
+			}
+			// fieldclasses.close();
+		}
+
+		keys = SuperClassesHashMap.keySet();
+		Map<Integer, SuperClasses> SuperClassesMap = SuperClassesHashMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
+						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+		for (Integer key : keys) {
+			System.out.println("============================>Value of " + SuperClassesMap.get(key).ID + " is: "
+					+ "  fieldaccess  " + SuperClassesMap.get(key).ParentClass.ID + "   "
+					+ SuperClassesMap.get(key).ParentClass.ClassName + "  "
+					+ SuperClassesMap.get(key).ChildClass.ID + "  " + "  "
+					+ SuperClassesMap.get(key).ChildClass.ClassName + "  " );
+		}	
 		
 		
 	}
