@@ -37,6 +37,7 @@ public class DatabaseReading {
 	public static  HashMap<Integer, SuperClasses> SuperClassesHashMap= new HashMap<Integer, SuperClasses>();
 	public static  HashMap<Integer, Parameter> ParameterHashMap= new HashMap<Integer, Parameter>();
 	public static  HashMap<Integer, TraceClass> TraceClassHashMap= new HashMap<Integer, TraceClass>();
+	public static  HashMap<Integer, Traces> tracesHashMap= new HashMap<Integer, Traces>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -871,6 +872,85 @@ public class DatabaseReading {
 					+ TracesClassMap.get(key).myclass.ClassName + "  " + TracesClassMap.get(key).requirement.ID
 					+ "  " + "  " + TracesClassMap.get(key).requirement.RequirementName + "  " + TracesClassMap.get(key).gold+ "  " + TracesClassMap.get(key).subject+"  ");
 		}
+		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//TRACES 
+		rowcount = null;
+	
+		classname = null;
+		
+		
+		var = st.executeQuery("select count(*) from traces");
+		while (var.next()) {
+			rowcount = var.getString("count(*)");
+		}
+		System.out.println("ROW COUNT::::::" + rowcount);
+		rowcountint = Integer.parseInt(rowcount);
+
+		id = null;
+		String classnameTRACE = null;
+		String requirementnameTrace=null; 
+		String methodnameTrace=null; 
+		row = 1;
+		String methodID; 
+		int methodIDINT; 
+		while (row <= rowcountint) {
+			System.out.println("THIS ROW: =====================>" + row);
+			ResultSet traces = st.executeQuery("SELECT traces.* from traces where id='" + row + "'");
+
+			while (traces.next()) {
+				requirementid = traces.getString("requirementid");
+				requirementidINT = Integer.parseInt(requirementid);
+
+				requirementnameTrace = traces.getString("requirement");
+
+				classid = traces.getString("classid");
+				classidINT1 = Integer.parseInt(classid);
+
+				classnameTraceClass = traces.getString("classname");
+				
+				goldTraceClass = traces.getString("gold");
+				
+				subjectTraceClass = traces.getString("subject");
+				methodname = traces.getString("method");
+				
+				methodID = traces.getString("methodid");
+				methodIDINT = Integer.parseInt(methodID); 
+				
+				Requirement req = new Requirement(requirementidINT, requirementnameTrace);
+				Class myclass = new Class(classidINT1, classnameTraceClass);
+				Method method= new Method(methodIDINT, methodname, myclass); 
+				Traces mytrace= new Traces(row, req, method, goldTraceClass, subjectTraceClass); 
+
+				tracesHashMap.put(row, mytrace);
+				row++;
+				// methodcallsEXECUTED = st.executeQuery("SELECT methodcallsexecuted.* from
+				// methodcallsexecuted where id='" + row + "'");
+
+			}
+			// fieldclasses.close();
+		}
+
+		keys = tracesHashMap.keySet();
+		Map<Integer, Traces> TracesMap = tracesHashMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
+						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+		for (Integer key : keys) {
+			System.out.println("============================>Value of " + TracesMap.get(key).ID + " is: "
+					+ "  fieldaccess  " + TracesMap.get(key).requirement.ID+ "   "
+					+ TracesMap.get(key).requirement.RequirementName + "  " + TracesMap.get(key).method.Class.ID
+					+ "  " + "  " + TracesMap.get(key).method.Class.ClassName + "  " + 
+					TracesMap.get(key).method.methodName+ "  " +
+					TracesMap.get(key).subject
+					+ "  " + TracesMap.get(key).gold+"  ");
+		}
+		
+		
+		
+		
+		
 	}
 	public static void main(String[] args) throws SQLException {
 	
