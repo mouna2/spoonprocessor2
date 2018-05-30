@@ -9,8 +9,7 @@ public class MethodCalls {
 		ID = iD;
 		CallerMethod = callerMethod;
 		CalleeMethod = calleeMethod;
-	}
-	
+	}	
 	
 	
 	

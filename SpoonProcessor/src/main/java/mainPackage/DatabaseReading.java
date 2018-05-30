@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -947,8 +948,8 @@ public class DatabaseReading {
 					+ "  " + TracesMap.get(key).gold+"  ");
 		}
 		
-		
-		
+		Predictions2 pre= new Predictions2(); 
+		pre.predict();
 		
 	}
 	public static void main(String[] args) throws SQLException {
