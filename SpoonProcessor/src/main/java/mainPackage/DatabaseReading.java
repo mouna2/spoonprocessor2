@@ -950,7 +950,6 @@ public class DatabaseReading {
 		
 		
 		
-		
 	}
 	public static void main(String[] args) throws SQLException {
 	
