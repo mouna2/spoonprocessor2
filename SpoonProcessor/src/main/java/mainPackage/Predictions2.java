@@ -32,9 +32,10 @@ public class Predictions2 {
 //	}
 	
 	public void predict() 
-	{
+	{ 	
+	
 		MethodCalls first = dr.MethodCallsHashMap.get(1);
-		Traces firstTrace = dr.tracesHashMap.get(73);
+		TracesMethods firstTrace = dr.tracesHashMap.get(73);
 		
 		if(firstTrace.method.ID==first.CalleeMethod.ID) {
 			System.out.println("yes there is a trace "); 
@@ -43,6 +44,8 @@ public class Predictions2 {
 		else {
 			System.out.println("no trace"); 
 		}
+		
+		
 	}
 	
 	

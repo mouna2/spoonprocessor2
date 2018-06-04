@@ -38,7 +38,7 @@ public class DatabaseReading {
 	public static  HashMap<Integer, SuperClasses> SuperClassesHashMap= new HashMap<Integer, SuperClasses>();
 	public static  HashMap<Integer, Parameter> ParameterHashMap= new HashMap<Integer, Parameter>();
 	public static  HashMap<Integer, TraceClass> TraceClassHashMap= new HashMap<Integer, TraceClass>();
-	public static  HashMap<Integer, Traces> tracesHashMap= new HashMap<Integer, Traces>();
+	public static  HashMap<Integer, TracesMethods> tracesHashMap= new HashMap<Integer, TracesMethods>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -922,7 +922,7 @@ public class DatabaseReading {
 				Requirement req = new Requirement(requirementidINT, requirementnameTrace);
 				Class myclass = new Class(classidINT1, classnameTraceClass);
 				Method method= new Method(methodIDINT, methodname, myclass); 
-				Traces mytrace= new Traces(row, req, method, goldTraceClass, subjectTraceClass); 
+				TracesMethods mytrace= new TracesMethods(row, req, method, goldTraceClass, subjectTraceClass); 
 
 				tracesHashMap.put(row, mytrace);
 				row++;
@@ -934,7 +934,7 @@ public class DatabaseReading {
 		}
 
 		keys = tracesHashMap.keySet();
-		Map<Integer, Traces> TracesMap = tracesHashMap.entrySet().stream()
+		Map<Integer, TracesMethods> TracesMap = tracesHashMap.entrySet().stream()
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
 						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
