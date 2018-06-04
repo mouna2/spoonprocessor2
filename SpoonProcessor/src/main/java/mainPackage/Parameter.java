@@ -3,8 +3,7 @@ package mainPackage;
 public class Parameter {
 	int ID; 
 	String ParameterName; 
-	Class ParameterClass; 
-	
+	Class ParameterClass; 	
 	Method Method; 
 	int IsReturn;
 	public Parameter(int iD, String parameterName, Class parameterClass, 
