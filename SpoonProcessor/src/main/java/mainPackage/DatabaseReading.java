@@ -27,18 +27,18 @@ import spoon.reflect.factory.ClassFactory;
 
 public class DatabaseReading {
 	public static  HashMap<Integer, String> classesHashMap = new HashMap<Integer, String>();
-	public static  HashMap<Integer, FieldTypeClass> FieldClassesHashMap = new HashMap<Integer, FieldTypeClass>();
+	public static  HashMap<Integer, ClassField> FieldClassesHashMap = new HashMap<Integer, ClassField>();
 	public static  HashMap<Integer, Method> MethodsHashMap = new HashMap<Integer, Method>();
 	public static  HashMap<Integer, Requirement> RequirementsHashMap = new HashMap<Integer, Requirement>();
-	public static  HashMap<Integer, Interfaces> InterfaceHashMap = new HashMap<Integer, Interfaces>();
-	public static  HashMap<Integer, FieldTypeClass> FieldTypeClasses = new HashMap<Integer, FieldTypeClass>();
-	public static  HashMap<Integer, FieldMethods> FieldMethodsHashMap = new HashMap<Integer, FieldMethods>();
+	public static  HashMap<Integer, Interface> InterfaceHashMap = new HashMap<Integer, Interface>();
+	public static  HashMap<Integer, ClassField> FieldTypeClasses = new HashMap<Integer, ClassField>();
+	public static  HashMap<Integer, MethodField> FieldMethodsHashMap = new HashMap<Integer, MethodField>();
 	public static  HashMap<Integer, MethodCalls> MethodCallsHashMap = new HashMap<Integer, MethodCalls>();
 	public static  HashMap<Integer, MethodCalls> MethodCallsEXECUTEDHashMap= new HashMap<Integer, MethodCalls>();
 	public static  HashMap<Integer, SuperClasses> SuperClassesHashMap= new HashMap<Integer, SuperClasses>();
 	public static  HashMap<Integer, Parameter> ParameterHashMap= new HashMap<Integer, Parameter>();
-	public static  HashMap<Integer, TraceClass> TraceClassHashMap= new HashMap<Integer, TraceClass>();
-	public static  HashMap<Integer, TracesMethods> tracesHashMap= new HashMap<Integer, TracesMethods>();
+	public static  HashMap<Integer, ClassTrace> TraceClassHashMap= new HashMap<Integer, ClassTrace>();
+	public static  HashMap<Integer, MethodTrace> tracesHashMap= new HashMap<Integer, MethodTrace>();
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -96,33 +96,15 @@ public class DatabaseReading {
 		String id=null;
 		String classname=null; 
 		String fieldname=null; 
-		
-		while(row<=rowcountint) {
-			
-			
-			
-			
-			ResultSet classes = st.executeQuery("SELECT classes.* from classes where id='"+row+"'"); 
-			while(classes.next()){
-				id = classes.getString("id"); 
-				int ID2 = Integer.parseInt(id); 
-				classname = classes.getString("classname"); 
-				
-				classesHashMap.put(ID2, classname); 
-			}
-			row++; 
-		}
-		Set<Integer> keys = classesHashMap.keySet();
-	HashMap<Integer, String> result = classesHashMap.entrySet().stream()
-	                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
-	                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-	                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-	
-		
-        for(Integer key: keys){
-            System.out.println("Value of "+key+" is: "+ result.get(key));
-        }
-
+		String superclass=null; 
+		String childclass=null; 
+		String childclassid=null; 
+		String superclassid = null; 
+		String interfacename=null; 
+		String interfaceclassname=null; 
+		String fieldtype=null; 
+		int index=-1; 
+		ComputeClasses(st, st2, index); 
 		
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +166,7 @@ public class DatabaseReading {
 									 
 							 }
 							 
-							 FieldTypeClass Fieldtype= new FieldTypeClass(row, fieldname, FieldTypeClass, OwnerClass); 
+							 ClassField Fieldtype= new ClassField(row, fieldname, FieldTypeClass, OwnerClass); 
 							 FieldClassesHashMap.put(row, Fieldtype); 
 						fieldclasses = st.executeQuery("SELECT fieldclasses.* from fieldclasses where id='"+row+"'"); 
 						row++; 
@@ -193,14 +175,14 @@ public class DatabaseReading {
 				}
 				
 			
-		 keys = FieldClassesHashMap.keySet();
-		Map<Integer, FieldTypeClass> resultFieldClasses = FieldClassesHashMap.entrySet().stream()
+		 Set<Integer> keys = FieldClassesHashMap.keySet();
+		Map<Integer, ClassField> resultFieldClasses = FieldClassesHashMap.entrySet().stream()
 		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
 		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 		System.out.println("FIELD TYPE CLASSES");
 		 for(Integer key: keys){
-	            System.out.println("Value of "+key+" is: "+ resultFieldClasses.get(key).VariableName+ "   "+resultFieldClasses.get(key).OwnerClass.toString()+ "   "+resultFieldClasses.get(key).fieldType.toString());
+	            System.out.println("Value of "+key+" is: "+ resultFieldClasses.get(key).FieldName+ "   "+resultFieldClasses.get(key).OwnerClass.toString()+ "   "+resultFieldClasses.get(key).FieldType.toString());
 	        }
 	
 		 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,7 +246,7 @@ public class DatabaseReading {
 		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 		
 		 for(Integer key: keys){
-	            System.out.println("Value of "+key+" is: "+ resultMethods.get(key).methodName+ "   "+resultMethods.get(key).Class.ID+ "   "+resultMethods.get(key).Class.ClassName);
+	            System.out.println("Value of "+key+" is: "+ resultMethods.get(key).methodName+ "   "+resultMethods.get(key).OwnerClass.ID+ "   "+resultMethods.get(key).OwnerClass.ClassName);
 	        }
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -322,7 +304,7 @@ public class DatabaseReading {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //INTERFACES
 		 rowcount = null; 
-		 String interfacename=null; 
+		  interfacename=null; 
 		 
 		 var = st.executeQuery("select count(*) from interfaces"); 
 		while(var.next()){
@@ -353,7 +335,7 @@ public class DatabaseReading {
 						String Ownername = interfaces.getString("classname"); 
 						Class OwnerClass1 = new Class(OwnerClassID, Ownername); 
 						
-							Interfaces myinterface = new Interfaces(row, InterfaceClass, OwnerClass1); 
+							Interface myinterface = new Interface(row, InterfaceClass, OwnerClass1); 
 						 
 						 	
 						
@@ -367,7 +349,7 @@ public class DatabaseReading {
 				
 			
 		 keys = InterfaceHashMap.keySet();
-		Map<Integer, Interfaces> resultInterfaces = InterfaceHashMap.entrySet().stream()
+		Map<Integer, Interface> resultInterfaces = InterfaceHashMap.entrySet().stream()
 		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
 		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
@@ -382,7 +364,7 @@ public class DatabaseReading {
 //FIELD METHODS 		 
 		 rowcount = null; 
 		 String fieldmethod=null; 
-		 String fieldtype=null; 
+		  fieldtype=null; 
 		  classname=null; 
 		 var = st.executeQuery("select count(*) from fieldmethods"); 
 		while(var.next()){
@@ -434,7 +416,7 @@ public class DatabaseReading {
 						Class FieldDataType= new Class(fieldtypeclassid2, fieldtype); 
 						Class myclass= new Class(ownerclassid2, classname); 
 						Method method = new Method(ownermethodid2, methodname, myclass); 
-						FieldMethods FieldMethods= new FieldMethods(row, fieldaccess, FieldDataType,  myclass, method); 
+						MethodField FieldMethods= new MethodField(row, fieldaccess, FieldDataType,  myclass, method); 
 						 	
 						
 						FieldMethodsHashMap.put(row, FieldMethods);  
@@ -447,13 +429,13 @@ public class DatabaseReading {
 				
 			
 		 keys = FieldMethodsHashMap.keySet();
-		Map<Integer, FieldMethods> resultFieldMethods = FieldMethodsHashMap.entrySet().stream()
+		Map<Integer, MethodField> resultFieldMethods = FieldMethodsHashMap.entrySet().stream()
 		                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
 		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 		
 		 for(Integer key: keys){
-	            System.out.println("============================>Value of "+resultFieldMethods.get(key).ID+" is: " + "  fieldaccess  "  +resultFieldMethods.get(key).VaribaleName +"   " +resultFieldMethods.get(key).fieldType.ID+ "  "+resultFieldMethods.get(key).fieldType.ClassName+ "  "+
+	            System.out.println("============================>Value of "+resultFieldMethods.get(key).ID+" is: " + "  fieldaccess  "  +resultFieldMethods.get(key).FieldName +"   " +resultFieldMethods.get(key).fieldType.ID+ "  "+resultFieldMethods.get(key).fieldType.ClassName+ "  "+
 	            		resultFieldMethods.get(key).fieldType.ID+ "  "+resultFieldMethods.get(key).fieldType.ClassName+ "   "+resultFieldMethods.get(key).method.ID+ "   "+
 	            		resultFieldMethods.get(key).method.methodName+ " ");
 	        }	 
@@ -541,9 +523,9 @@ public class DatabaseReading {
 		
 		 for(Integer key: keys){
 	            System.out.println("============================>Value of "+MethodCallsMap.get(key).ID+" is: " + "  fieldaccess  "  +MethodCallsMap.get(key).CalleeMethod.ID +"   " +MethodCallsMap.get(key).CalleeMethod.methodName+ 
-	            		"  "+MethodCallsMap.get(key).CalleeMethod.Class.ClassName+ "  "+		"  "+MethodCallsMap.get(key).CallerMethod.ID+ "  "+
+	            		"  "+MethodCallsMap.get(key).CalleeMethod.OwnerClass.ClassName+ "  "+		"  "+MethodCallsMap.get(key).CallerMethod.ID+ "  "+
 	            		MethodCallsMap.get(key).CallerMethod.methodName+ 
-	            		"  "+MethodCallsMap.get(key).CallerMethod.Class.ClassName);
+	            		"  "+MethodCallsMap.get(key).CallerMethod.OwnerClass.ClassName);
 	        }	 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -633,9 +615,9 @@ public class DatabaseReading {
 			System.out.println("============================>Value of " + MethodCallsEXECUTEDMap.get(key).ID + " is: "
 					+ "  fieldaccess  " + MethodCallsEXECUTEDMap.get(key).CalleeMethod.ID + "   "
 					+ MethodCallsEXECUTEDMap.get(key).CalleeMethod.methodName + "  "
-					+ MethodCallsEXECUTEDMap.get(key).CalleeMethod.Class.ClassName + "  " + "  "
+					+ MethodCallsEXECUTEDMap.get(key).CalleeMethod.OwnerClass.ClassName + "  " + "  "
 					+ MethodCallsEXECUTEDMap.get(key).CallerMethod.ID + "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.methodName
-					+ "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.Class.ClassName);
+					+ "  " + MethodCallsEXECUTEDMap.get(key).CallerMethod.OwnerClass.ClassName);
 		}	 
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -796,14 +778,14 @@ public class DatabaseReading {
 		for (Integer key : keys) {
 			System.out.println("============================>ID:  " + ParametersMap.get(key).ID + " is: "
 					+ " ----- parameter name  " + ParametersMap.get(key).ParameterName + "  parameterclassID "
-					+ ParametersMap.get(key).ParameterClass.ID + " parameter classname " + ParametersMap.get(key).ParameterClass.ClassName 
+					+ ParametersMap.get(key).ParameterType.ID + " parameter classname " + ParametersMap.get(key).ParameterType.ClassName 
 				
 					+
-					" ----- Parameter METHOD ID  "+ ParametersMap.get(key).Method.ID +
-					" ------ Parameter METHOD Name  "+ ParametersMap.get(key).Method.methodName+
-					"  ------Parameter METHOD Name Class id  "+ ParametersMap.get(key).Method.Class.ID
+					" ----- Parameter METHOD ID  "+ ParametersMap.get(key).OwnerMethod.ID +
+					" ------ Parameter METHOD Name  "+ ParametersMap.get(key).OwnerMethod.methodName+
+					"  ------Parameter METHOD Name Class id  "+ ParametersMap.get(key).OwnerMethod.OwnerClass.ID
 					+
-					" ------ Parameter METHOD Name Class name  "+ ParametersMap.get(key).Method.Class.ClassName+
+					" ------ Parameter METHOD Name Class name  "+ ParametersMap.get(key).OwnerMethod.OwnerClass.ClassName+
 					"-------- Parameter isreturn: "+ ParametersMap.get(key).IsReturn);
 		}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -851,7 +833,7 @@ public class DatabaseReading {
 
 				Requirement req = new Requirement(requirementidINT, requirementname);
 				Class myclass = new Class(classidINT1, classnameTraceClass);
-				TraceClass mytraceclass= new TraceClass(row, req, myclass, goldTraceClass, subjectTraceClass); 
+				ClassTrace mytraceclass= new ClassTrace(row, req, myclass, goldTraceClass, subjectTraceClass); 
 
 				TraceClassHashMap.put(row, mytraceclass);
 				row++;
@@ -863,7 +845,7 @@ public class DatabaseReading {
 		}
 
 		keys = TraceClassHashMap.keySet();
-		Map<Integer, TraceClass> TracesClassMap = TraceClassHashMap.entrySet().stream()
+		Map<Integer, ClassTrace> TracesClassMap = TraceClassHashMap.entrySet().stream()
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
 						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
@@ -922,7 +904,7 @@ public class DatabaseReading {
 				Requirement req = new Requirement(requirementidINT, requirementnameTrace);
 				Class myclass = new Class(classidINT1, classnameTraceClass);
 				Method method= new Method(methodIDINT, methodname, myclass); 
-				TracesMethods mytrace= new TracesMethods(row, req, method, goldTraceClass, subjectTraceClass); 
+				MethodTrace mytrace= new MethodTrace(row, req, method, goldTraceClass, subjectTraceClass); 
 
 				tracesHashMap.put(row, mytrace);
 				row++;
@@ -934,15 +916,15 @@ public class DatabaseReading {
 		}
 
 		keys = tracesHashMap.keySet();
-		Map<Integer, TracesMethods> TracesMap = tracesHashMap.entrySet().stream()
+		Map<Integer, MethodTrace> TracesMap = tracesHashMap.entrySet().stream()
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).collect(Collectors.toMap(
 						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
 		for (Integer key : keys) {
 			System.out.println("============================>Value of " + TracesMap.get(key).ID + " is: "
 					+ "  fieldaccess  " + TracesMap.get(key).requirement.ID+ "   "
-					+ TracesMap.get(key).requirement.RequirementName + "  " + TracesMap.get(key).method.Class.ID
-					+ "  " + "  " + TracesMap.get(key).method.Class.ClassName + "  " + 
+					+ TracesMap.get(key).requirement.RequirementName + "  " + TracesMap.get(key).method.OwnerClass.ID
+					+ "  " + "  " + TracesMap.get(key).method.OwnerClass.ClassName + "  " + 
 					TracesMap.get(key).method.methodName+ "  " +
 					TracesMap.get(key).subject
 					+ "  " + TracesMap.get(key).gold+"  ");
@@ -963,7 +945,102 @@ public class DatabaseReading {
 		// TODO Auto-generated method stub
 		Read(st, st2);
 	}
+ //******************************************************************************************************************************//
+//******************************************************************************************************************************//
+//******************************************************************************************************************************//
+	static boolean entered=false; 
+	static int countentered=0; 
+	public static void ComputeClasses(java.sql.Statement st, java.sql.Statement st2, int index) throws SQLException {
+		//CLASSESHASHMAP
+				String rowcount = null; 
+				ResultSet var = st.executeQuery("select count(*) from classes"); 
+				while(var.next()){
+					rowcount = var.getString("count(*)");
+					}
+				System.out.println("ROW COUNT::::::"+rowcount); 
+				int rowcountint= Integer.parseInt(rowcount); 
+				int row=1; 
+				String id=null;
+				String classname=null; 
+				String fieldname=null; 
+				String superclass=null; 
+				String childclass=null; 
+				String childclassid=null; 
+				String superclassid = null; 
+				String interfacename=null; 
+				String interfaceclassname=null; 
+				String fieldtype=null; 
+				ResultSet classes; 
+				while(row<=rowcountint) {
+					
+					
+					
+					if(index==-1) {
+						 classes = st.executeQuery("SELECT classes.* from classes where id='"+row+"'"); 
 
-	
+					}
+					else {
+						classes = st.executeQuery("SELECT classes.* from classes where id='"+index+"'"); 
+					}
+					while(classes.next()){
+						id = classes.getString("id"); 
+						int ID2 = Integer.parseInt(id); 
+						classname = classes.getString("classname"); 
+						
+						ResultSet superclasses = st2.executeQuery("SELECT superclasses.* from superclasses where ownerclassid='"+id+"'"); 
+						while(superclasses.next()){
+						superclassid = superclasses.getString("superclassid");
+						superclass=superclasses.getString("superclassname"); 
+					//	classesHashMap.put(ID2, classname); 
+						
+					}
+						ResultSet childclasses = st2.executeQuery("SELECT superclasses.* from superclasses where superclassid='"+id+"'"); 
+						while(childclasses.next() && countentered<=2){
+						childclassid = childclasses.getString("superclassid");
+						int childclassidInt = Integer.parseInt(childclassid); 
+						childclass=childclasses.getString("superclassname"); 
+						//ComputeClasses(st, st2, childclassidInt);
+						//countentered++; 
+					//	classesHashMap.put(ID2, classname); 
+						
+					}
+						ResultSet interfaces = st2.executeQuery("SELECT interfaces.* from interfaces where interfaceclassid='"+id+"'"); 
+						while(interfaces.next()){
+						interfacename = interfaces.getString("interfacename");
+						interfaceclassname=interfaces.getString("classname"); 
+					//	classesHashMap.put(ID2, classname); 
+						
+					}
+						ResultSet fieldclasses = st2.executeQuery("SELECT fieldclasses.* from fieldclasses where ownerclassid='"+id+"'"); 
+						while(fieldclasses.next()){
+						fieldtype = fieldclasses.getString("fieldtype");
+						classname=fieldclasses.getString("classname"); 
+					//	classesHashMap.put(ID2, classname); 
+						
+					}
+						
+						
+						classesHashMap.put(ID2, classname); 
+						
+						if(index!=-1) {
+							index=-1; 
+							row++; 
+						}else {
+							row++; 
+						}
+					}
+					
+				}
+				Set<Integer> keys = classesHashMap.keySet();
+			HashMap<Integer, String> result = classesHashMap.entrySet().stream()
+			                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+			                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+			                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+			
+				
+		        for(Integer key: keys){
+		            System.out.println("Value of "+key+" is: "+ result.get(key));
+		        }
+	}
 	
 }

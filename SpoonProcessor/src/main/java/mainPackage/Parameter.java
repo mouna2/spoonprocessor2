@@ -3,17 +3,15 @@ package mainPackage;
 public class Parameter {
 	int ID; 
 	String ParameterName; 
-	Class ParameterClass; 	
-	Method Method; 
+	Class ParameterType; 	
+	Method OwnerMethod; 
 	int IsReturn;
-	public Parameter(int iD, String parameterName, Class parameterClass, 
-			mainPackage.Method method, int isReturn) {
+	public Parameter(int iD, String parameterName, Class parameterType, Method ownerMethod, int isReturn) {
 		super();
 		ID = iD;
 		ParameterName = parameterName;
-		ParameterClass = parameterClass;
-	
-		Method = method;
+		ParameterType = parameterType;
+		OwnerMethod = ownerMethod;
 		IsReturn = isReturn;
 	}
 	

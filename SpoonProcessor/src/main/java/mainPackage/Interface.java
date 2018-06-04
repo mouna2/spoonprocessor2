@@ -1,10 +1,10 @@
 package mainPackage;
 
-public class Interfaces {
+public class Interface {
 	int ID; 
 	public Class InterfaceClass; 
 	public Class OwnerClass;
-	public Interfaces(int iD, Class interfaceClass, Class ownerClass) {
+	public Interface(int iD, Class interfaceClass, Class ownerClass) {
 		super();
 		ID = iD;
 		InterfaceClass = interfaceClass;

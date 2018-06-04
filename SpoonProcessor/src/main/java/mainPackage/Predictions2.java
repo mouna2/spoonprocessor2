@@ -35,7 +35,7 @@ public class Predictions2 {
 	{ 	
 	
 		MethodCalls first = dr.MethodCallsHashMap.get(1);
-		TracesMethods firstTrace = dr.tracesHashMap.get(73);
+		MethodTrace firstTrace = dr.tracesHashMap.get(73);
 		
 		if(firstTrace.method.ID==first.CalleeMethod.ID) {
 			System.out.println("yes there is a trace "); 

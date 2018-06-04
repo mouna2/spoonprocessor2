@@ -1,12 +1,12 @@
 package mainPackage;
 
-public class TracesMethods {
+public class MethodTrace {
 	int ID; 
 	Requirement requirement; 
 	Method method; 
 	String gold; 
 	String subject;
-	public TracesMethods(int iD, Requirement requirement, Method method, String gold, String subject) {
+	public MethodTrace(int iD, Requirement requirement, Method method, String gold, String subject) {
 		super();
 		ID = iD;
 		this.requirement = requirement;

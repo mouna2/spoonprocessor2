@@ -1,15 +1,43 @@
 package mainPackage;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Method {
 	int ID; 
 	public String methodName; 
-	public Class Class;
-	public Method(int iD, String methodName, mainPackage.Class class1) {
+	public Class OwnerClass;
+	List<Method> callees; 
+	List<Method> callers; 
+	List<Parameter> parameters;
+	List<MethodField> MethodFields; 
+	HashMap<Requirement, MethodTrace> MethodTraces; 
+	
+	
+	
+	public Method(int iD, String methodName, Class ownerClass, List<Method> callees, List<Method> callers,
+			List<Parameter> parameters, List<MethodField> methodFields,
+			HashMap<Requirement, MethodTrace> methodTraces) {
 		super();
 		ID = iD;
 		this.methodName = methodName;
-		Class = class1;
+		OwnerClass = ownerClass;
+		this.callees = callees;
+		this.callers = callers;
+		this.parameters = parameters;
+		MethodFields = methodFields;
+		MethodTraces = methodTraces;
 	}
+
+
+
+	public Method(int iD, String methodName, Class ownerClass) {
+		super();
+		ID = iD;
+		this.methodName = methodName;
+		OwnerClass = ownerClass;
+		
+	} 
 	
 	
 	
