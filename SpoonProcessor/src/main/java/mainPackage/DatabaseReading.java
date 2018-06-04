@@ -431,10 +431,10 @@ public class DatabaseReading {
 						
 						ownermethodid = fieldmethods.getString("ownermethodid");
 						ownermethodid2= Integer.parseInt(ownermethodid); 
-						Class variable= new Class(fieldtypeclassid2, fieldtype); 
+						Class FieldDataType= new Class(fieldtypeclassid2, fieldtype); 
 						Class myclass= new Class(ownerclassid2, classname); 
 						Method method = new Method(ownermethodid2, methodname, myclass); 
-						FieldMethods FieldMethods= new FieldMethods(row, fieldaccess, variable,  myclass, method); 
+						FieldMethods FieldMethods= new FieldMethods(row, fieldaccess, FieldDataType,  myclass, method); 
 						 	
 						
 						FieldMethodsHashMap.put(row, FieldMethods);  
@@ -453,7 +453,7 @@ public class DatabaseReading {
 		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 		
 		 for(Integer key: keys){
-	            System.out.println("============================>Value of "+resultFieldMethods.get(key).ID+" is: " + "  fieldaccess  "  +resultFieldMethods.get(key).VaribaleName +"   " +resultFieldMethods.get(key).Variable.ID+ "  "+resultFieldMethods.get(key).Variable.ClassName+ "  "+
+	            System.out.println("============================>Value of "+resultFieldMethods.get(key).ID+" is: " + "  fieldaccess  "  +resultFieldMethods.get(key).VaribaleName +"   " +resultFieldMethods.get(key).fieldType.ID+ "  "+resultFieldMethods.get(key).fieldType.ClassName+ "  "+
 	            		resultFieldMethods.get(key).fieldType.ID+ "  "+resultFieldMethods.get(key).fieldType.ClassName+ "   "+resultFieldMethods.get(key).method.ID+ "   "+
 	            		resultFieldMethods.get(key).method.methodName+ " ");
 	        }	 

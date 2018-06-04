@@ -3,18 +3,19 @@ package mainPackage;
 public class FieldMethods {
 	int ID; 
 	String VaribaleName; 
-	Class Variable; 
-	 Class fieldType; 
+	Class fieldType; 
+	 Class ownerClass; 
 	Method method;
-	public FieldMethods(int iD, String varibaleName, Class variable, Class fieldType, Method method) {
+	public FieldMethods(int iD, String varibaleName, Class fieldType, Class ownerClass, Method method) {
 		super();
 		ID = iD;
 		VaribaleName = varibaleName;
-		Variable = variable;
 		this.fieldType = fieldType;
+		this.ownerClass = ownerClass;
 		this.method = method;
 	}
-
+	
+	
 
 	 
 	 
