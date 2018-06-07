@@ -104,6 +104,18 @@ public class DatabaseReading2 {
 				 
 			ClassDetails2 classdet2= new ClassDetails2(); 
 			HashMap<Integer, ClassDetails2> classhashmap = classdet2.ReadClassesRepresentations(conn); 	
+			
+			///////////////////////////////////////////////////////////////////////////////////////
+			
+			ClassTrace2 myclasstrace2= new ClassTrace2(); 
+			HashMap<Integer, ClassTrace2> classtracehashmap = myclasstrace2.ReadClassesRepresentations(conn); 
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////////
+			
+			MethodTrace2 methodtrace2= new MethodTrace2(); 
+			HashMap<Integer, MethodTrace2> methodtracehashmap = methodtrace2.ReadClassesRepresentations(conn); 
+			
 			System.out.println("MOUNA");		
 	}
 /********************************************************************************************************************************/

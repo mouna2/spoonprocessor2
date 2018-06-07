@@ -81,9 +81,21 @@ public class ClassTrace2 {
 			 while(myresults.next()) {
 				 ClassTrace2 myclasstrace= new ClassTrace2(); 
 				 Requirement2 requirement = new Requirement2(); 
+				 requirement.setID(myresults.getString("requirementid"));
+				 requirement.setRequirementName(myresults.getString("requirement"));
+				 myclasstrace.setRequirement(requirement);
 				 
+				 ClassRepresentation2 classrep = new ClassRepresentation2(); 
+				 classrep.setClassid(myresults.getString("classid"));
+				 classrep.setClassname(myresults.getString("classname"));
+				 myclasstrace.setMyclass(classrep);
 				 
+				 myclasstrace.setGold(myresults.getString("gold"));
 				 
+				 myclasstrace.setSubject(myresults.getString("subject"));
+				 classtraceHashMap.put(index, myclasstrace); 
+				 index++; 
+				 myresults = st.executeQuery("SELECT tracesclasses.* from tracesclasses where id='"+ index +"'"); 
 			 }
 			 
 			return classtraceHashMap;

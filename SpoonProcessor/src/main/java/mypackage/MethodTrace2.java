@@ -1,5 +1,11 @@
 package mypackage;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+
 public class MethodTrace2 {
 	
 	public Method2Representation MethodRepresentation; 
@@ -7,6 +13,9 @@ public class MethodTrace2 {
 	public ClassRepresentation2 ClassRepresentation; 
 	public String gold; 
 	public String subject;
+	
+	
+	HashMap<Integer, MethodTrace2> methodtraceHashMap= new HashMap<Integer, MethodTrace2> (); 
 	
 	public MethodTrace2() {
 		super();
@@ -62,6 +71,45 @@ public class MethodTrace2 {
 		this.subject = subject;
 	}
 	
+	public  HashMap<Integer, MethodTrace2> ReadClassesRepresentations(Connection conn) throws SQLException {
+		DatabaseReading2 db = new DatabaseReading2(); 
+		ClassDetails2 classdet= new ClassDetails2(); 
+		//CLASSESHASHMAP
+		
+		Statement st = conn.createStatement();
+		ResultSet var = st.executeQuery("select count(*) from classes"); 
+		
+	
+		int index=1; 
+		 ResultSet myresults = st.executeQuery("SELECT traces.* from traces where id='"+ index +"'"); 
+		 while(myresults.next()) {
+			 MethodTrace2 mytrace= new MethodTrace2(); 
+			 Requirement2 requirement = new Requirement2(); 
+			 requirement.setID(myresults.getString("requirementid"));
+			 requirement.setRequirementName(myresults.getString("requirement"));
+			 mytrace.setRequirement(requirement);
+			 
+			 ClassRepresentation2 classrep = new ClassRepresentation2(); 
+			 classrep.setClassid(myresults.getString("classid"));
+			 classrep.setClassname(myresults.getString("classname"));
+			 
+			 Method2Representation methodrep= new Method2Representation(); 
+			 methodrep.setMethodid(myresults.getString("methodid"));
+			 methodrep.setMethodname(myresults.getString("method"));
+			 mytrace.setMethodRepresentation(methodrep);
+			 
+			 mytrace.setClassRepresentation(classrep);
+			 
+			 mytrace.setGold(myresults.getString("gold"));
+			 
+			 mytrace.setSubject(myresults.getString("subject"));
+			 methodtraceHashMap.put(index, mytrace); 
+			 index++; 
+			 myresults = st.executeQuery("SELECT traces.* from traces where id='"+ index +"'"); 
+		 }
+		 
+		return methodtraceHashMap;
+	}
 	
 	
 }
