@@ -1,13 +1,13 @@
-package mainPackage;
+package mypackage;
 
-public class ClassField {
+public class ClassField2 {
 	
 	String ID; 
 	 String FieldName;
-	 ClassRepresentation FieldType; 
-	 ClassRepresentation OwnerClass;
+	 ClassRepresentation2 FieldType; 
+	 ClassRepresentation2 OwnerClass;
 	
-	public ClassField(String iD, String fieldName, ClassRepresentation fieldType, ClassRepresentation ownerClass) {
+	public ClassField2(String iD, String fieldName, ClassRepresentation2 fieldType, ClassRepresentation2 ownerClass) {
 		super();
 		ID = iD;
 		FieldName = fieldName;
@@ -16,7 +16,7 @@ public class ClassField {
 	
 	}
 
-	public ClassField() {
+	public ClassField2() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -36,19 +36,19 @@ public class ClassField {
 		FieldName = fieldName;
 	}
 
-	public ClassRepresentation getFieldType() {
+	public ClassRepresentation2 getFieldType() {
 		return FieldType;
 	}
 
-	public void setFieldType(ClassRepresentation fieldType) {
+	public void setFieldType(ClassRepresentation2 fieldType) {
 		FieldType = fieldType;
 	}
 
-	public ClassRepresentation getOwnerClass() {
+	public ClassRepresentation2 getOwnerClass() {
 		return OwnerClass;
 	}
 
-	public void setOwnerClass(ClassRepresentation ownerClass) {
+	public void setOwnerClass(ClassRepresentation2 ownerClass) {
 		OwnerClass = ownerClass;
 	} 
 

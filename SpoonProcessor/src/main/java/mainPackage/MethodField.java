@@ -3,10 +3,10 @@ package mainPackage;
 public class MethodField {
 	int ID; 
 	String FieldName; 
-	Class fieldType; 
-	 Class ownerClass; 
+	ClassRepresentation fieldType; 
+	 ClassRepresentation ownerClass; 
 	Method method;
-	public MethodField(int iD, String fieldName, Class fieldType, Class ownerClass, Method method) {
+	public MethodField(int iD, String fieldName, ClassRepresentation fieldType, ClassRepresentation ownerClass, Method method) {
 		super();
 		ID = iD;
 		FieldName = fieldName;

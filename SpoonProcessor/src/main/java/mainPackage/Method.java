@@ -6,7 +6,7 @@ import java.util.List;
 public class Method {
 	int ID; 
 	public String methodName; 
-	public Class OwnerClass;
+	public ClassRepresentation OwnerClass;
 	List<Method> callees; 
 	List<Method> callers; 
 	List<Parameter> parameters;
@@ -15,7 +15,7 @@ public class Method {
 	
 	
 	
-	public Method(int iD, String methodName, Class ownerClass, List<Method> callees, List<Method> callers,
+	public Method(int iD, String methodName, ClassRepresentation ownerClass, List<Method> callees, List<Method> callers,
 			List<Parameter> parameters, List<MethodField> methodFields,
 			HashMap<Requirement, MethodTrace> methodTraces) {
 		super();
@@ -31,7 +31,7 @@ public class Method {
 
 
 
-	public Method(int iD, String methodName, Class ownerClass) {
+	public Method(int iD, String methodName, ClassRepresentation ownerClass) {
 		super();
 		ID = iD;
 		this.methodName = methodName;
