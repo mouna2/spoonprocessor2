@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MethodTrace2 {
 	
@@ -15,6 +17,7 @@ public class MethodTrace2 {
 	public String subject;
 	public String goldprediction; 
 	
+	public ArrayList<MethodTrace2> methodtraces; 
 	
 	public String getGoldprediction() {
 		return goldprediction;
@@ -120,5 +123,14 @@ public class MethodTrace2 {
 		return methodtraceHashMap;
 	}
 	
-	
+	public void getElement(List<MethodTrace2> methodtraces2, String ID, String goldpred) {
+		for(MethodTrace2 methodtrace: methodtraces2) {
+			if(methodtrace.getMethodRepresentation().methodid.equals(ID)) {
+				methodtrace.setGoldprediction(goldpred);
+			}
+		}
+		
+		
+		
+	}
 }
