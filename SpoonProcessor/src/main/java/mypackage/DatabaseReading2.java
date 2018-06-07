@@ -133,6 +133,7 @@ public class DatabaseReading2 {
 							 HashMap<Requirement2, MethodTrace2> methodtracesHash = method.getMethodtraces();
 							 List<MethodTrace2> methodtracesList = new ArrayList<MethodTrace2>(methodtracesHash.values());	
 							 for(MethodTrace2 methtrace: methodtracesList) {
+								 
 								 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) ){
 									 System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
 									 methodtraces2 = methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold); 
