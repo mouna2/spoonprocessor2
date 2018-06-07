@@ -101,22 +101,61 @@ public class DatabaseReading2 {
 		///////////////////////////////////////////////////////////////////////////////////////
 			Method2Details methoddet2= new Method2Details(); 
 			HashMap<Integer, Method2Details> methodhashmap = methoddet2.ReadClassesRepresentations(conn); 
-				 
+			List<Method2Details> methodlist = new ArrayList<Method2Details>(methodhashmap.values());	
+			///////////////////////////////////////////////////////////////////////////////////////
 			ClassDetails2 classdet2= new ClassDetails2(); 
 			HashMap<Integer, ClassDetails2> classhashmap = classdet2.ReadClassesRepresentations(conn); 	
-			
+			List<ClassDetails2> classlist = new ArrayList<ClassDetails2>(classhashmap.values());	
 			///////////////////////////////////////////////////////////////////////////////////////
 			
 			ClassTrace2 myclasstrace2= new ClassTrace2(); 
 			HashMap<Integer, ClassTrace2> classtracehashmap = myclasstrace2.ReadClassesRepresentations(conn); 
-			
+			List<ClassTrace2> classtraces = new ArrayList<ClassTrace2>(classtracehashmap.values());	
 			
 			///////////////////////////////////////////////////////////////////////////////////////
 			
 			MethodTrace2 methodtrace2= new MethodTrace2(); 
 			HashMap<Integer, MethodTrace2> methodtracehashmap = methodtrace2.ReadClassesRepresentations(conn); 
+			List<MethodTrace2> methodtraces = new ArrayList<MethodTrace2>(methodtracehashmap.values());	
+			///////////////////////////////////////////////////////////////////////////////////////
 			
 			System.out.println("MOUNA");		
+			
+			for( MethodTrace2 tracemeth: methodtraces) {
+				Requirement2 requirement= tracemeth.getRequirement();  
+				Method2Representation MethodRepresentation = tracemeth.getMethodRepresentation(); 
+				String gold= tracemeth.getGold(); 
+				for(Method2Details method: methodlist) {
+					Method2Representation MethodRepresentation2 = method.getMethodrep(); 
+					List<Method2Representation> Callees = method.calleesList; 
+					for(Method2Representation Callee: Callees) {
+						if(Callee.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
+							 HashMap<Requirement2, MethodTrace2> methodtracesHash = method.getMethodtraces();
+							 List<MethodTrace2> methodtracesList = new ArrayList<MethodTrace2>(methodtracesHash.values());	
+							 for(MethodTrace2 methtrace: methodtracesList) {
+								 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) ){
+									 System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
+								 }
+						}
+				
+				}
+				
+			}
+					
+					 List<Method2Representation> Callers = method.callersList; 
+					 for(Method2Representation Caller: Callers) {
+							if(Caller.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
+								 HashMap<Requirement2, MethodTrace2> methodtracesHashCallers = method.getMethodtraces();
+								 List<MethodTrace2> methodtracesCallersList = new ArrayList<MethodTrace2>(methodtracesHashCallers.values());	
+								 for(MethodTrace2 methtrace: methodtracesCallersList) {
+									 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) ){
+										 System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
+									 }
+							}		 
+			}
+			
+			 }
+			
 	}
 /********************************************************************************************************************************/
 /********************************************************************************************************************************/
@@ -130,9 +169,9 @@ public class DatabaseReading2 {
 	
 	
 	
+			}
 	
 	
-	
+			}
+
 }
-
-

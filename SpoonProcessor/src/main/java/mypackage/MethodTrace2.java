@@ -13,8 +13,17 @@ public class MethodTrace2 {
 	public ClassRepresentation2 ClassRepresentation; 
 	public String gold; 
 	public String subject;
+	public String goldprediction; 
 	
 	
+	public String getGoldprediction() {
+		return goldprediction;
+	}
+
+	public void setGoldprediction(String goldprediction) {
+		this.goldprediction = goldprediction;
+	}
+
 	HashMap<Integer, MethodTrace2> methodtraceHashMap= new HashMap<Integer, MethodTrace2> (); 
 	
 	public MethodTrace2() {
