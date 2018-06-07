@@ -123,14 +123,29 @@ public class MethodTrace2 {
 		return methodtraceHashMap;
 	}
 	
-	public void getElement(List<MethodTrace2> methodtraces2, String ID, String goldpred) {
+	public List<MethodTrace2> getElement(List<MethodTrace2> methodtraces2, String ID, String goldpred) {
 		for(MethodTrace2 methodtrace: methodtraces2) {
 			if(methodtrace.getMethodRepresentation().methodid.equals(ID)) {
 				methodtrace.setGoldprediction(goldpred);
 			}
 		}
 		
-		
+		return methodtraces2; 
 		
 	}
+
+	@Override
+	public String toString() {
+		return "MethodTrace2 [MethodRepresentation=" + MethodRepresentation.toString() 
+		
+		+ ", Requirement=" + Requirement.toString()
+			+ ", ClassRepresentation=" + ClassRepresentation.toString() + ", gold=" + gold + ", subject=" + subject 
+				+ ", goldprediction=" + goldprediction ; 
+			
+	}
+	
+	
+	
+	
+	
 }

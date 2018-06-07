@@ -118,7 +118,7 @@ public class DatabaseReading2 {
 			HashMap<Integer, MethodTrace2> methodtracehashmap = methodtrace2.ReadClassesRepresentations(conn); 
 			List<MethodTrace2> methodtraces = new ArrayList<MethodTrace2>(methodtracehashmap.values());	
 			///////////////////////////////////////////////////////////////////////////////////////
-			
+			List<MethodTrace2> methodtraces2 = null; 
 			System.out.println("MOUNA");		
 			
 			for( MethodTrace2 tracemeth: methodtraces) {
@@ -135,7 +135,7 @@ public class DatabaseReading2 {
 							 for(MethodTrace2 methtrace: methodtracesList) {
 								 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) ){
 									 System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
-									 methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold); 
+									 methodtraces2 = methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold); 
 								 }
 						}
 				
@@ -151,7 +151,7 @@ public class DatabaseReading2 {
 								 for(MethodTrace2 methtrace: methodtracesCallersList) {
 									 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) ){
 										 System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
-										 methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold); 
+										 methodtraces2 =  methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold); 
 									 }
 							}		 
 			}
@@ -173,6 +173,11 @@ public class DatabaseReading2 {
 	
 			}
 	
+			
+			for(MethodTrace2 methtr: methodtraces2) {
+				System.out.println(methtr.toString()); 
+			}
+			
 	
 			}
 

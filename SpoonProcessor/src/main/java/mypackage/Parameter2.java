@@ -39,6 +39,11 @@ public class Parameter2 {
 	}
 	public Parameter2() {
 		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Parameter2 [parameterName=" + parameterName + ", ParameterType=" + ParameterType + ", OwnerClass="
+				+ OwnerClass + ", isReturn=" + isReturn + "]";
 	} 
 	
 	

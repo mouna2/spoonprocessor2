@@ -85,5 +85,12 @@ public class ClassRepresentation2 {
 		
 		 return ClassRepresentationHashMap; 
 	}
+
+
+	@Override
+	public String toString() {
+		return "ClassRepresentation2 [classid=" + classid + ", classname=" + classname + ", ClassRepresentationHashMap="
+				+ ClassRepresentationHashMap + "]";
+	}
 	
 }

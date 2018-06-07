@@ -22,6 +22,10 @@ public class Method2Representation {
 	}
 	public void setMethodname(String methodname) {
 		this.methodname = methodname;
+	}
+	@Override
+	public String toString() {
+		return "Method2Representation [methodid=" + methodid + ", methodname=" + methodname + "]";
 	} 
 	
 	

@@ -42,6 +42,10 @@ public class Interface2 {
 	public void setOwnerClass(ClassRepresentation2 ownerClass) {
 		OwnerClass = ownerClass;
 	}
+	@Override
+	public String toString() {
+		return "Interface2 [ID=" + ID + ", InterfaceClass=" + InterfaceClass + ", OwnerClass=" + OwnerClass + "]";
+	}
 	 
 	
 	
