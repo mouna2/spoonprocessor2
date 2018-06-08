@@ -47,7 +47,7 @@ public class mygui {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(600, 600);
+		shell.setSize(1000, 1000);
 		shell.setText("SWT Application TEST");
 
 	}
