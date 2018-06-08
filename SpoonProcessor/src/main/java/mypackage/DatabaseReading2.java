@@ -235,8 +235,9 @@ public class DatabaseReading2 {
 		MethodTracesSize = MethodTracesSize - 4;
 		System.out.println("GOLDMATCHING/TOTAL : =====> " + GoldMatching + " / " + MethodTracesSize);
 
-		for (int i = 0; i < MethodTracesSize - 4; i++) {
-			if (methodtraces2.get(i).getGoldprediction() != null) {
+		for (int i = 0; i < MethodTracesSize ; i++) {
+			//System.out.println("GOLD PRED "+i +"   "+methodtraces2.get(i).getGoldprediction());
+			if (methodtraces2.get(i).getGoldprediction()!=null) {
 				MethodTracesSizeNotNull++;
 			}
 		}
