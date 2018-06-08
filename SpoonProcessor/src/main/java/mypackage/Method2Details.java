@@ -169,25 +169,25 @@ public class Method2Details {
 				 
 				 
 				 ResultSet callersExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where calleemethodid='" + id+"'"); 
-				 this.callersListExecuted= new  ArrayList<Method2Representation>(); 
+				 this.calleesListExecuted= new  ArrayList<Method2Representation>(); 
 				 while(callersExecuted.next()) {
 					 
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(callersExecuted.getString("callermethodid"));
 					 meth.setMethodname(callersExecuted.getString("callername"));
-					 this.callersListExecuted.add(meth); 					 
-					 methoddet2.setCallersListExecuted(callersListExecuted);
+					 this.calleesListExecuted.add(meth); 					 
+					 methoddet2.setCallersListExecuted(calleesListExecuted);
 				 }
 				 
 				 ResultSet calleesExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where callermethodid='" + id+"'"); 
-				 this.calleesListExecuted= new  ArrayList<Method2Representation>(); 
+				 this.callersListExecuted= new  ArrayList<Method2Representation>(); 
 				 while(calleesExecuted.next()) {
 					
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(calleesExecuted.getString("calleemethodid"));
 					 meth.setMethodname(calleesExecuted.getString("calleename"));
-					 this.calleesListExecuted.add(meth); 					 
-					 methoddet2.setCallees(calleesListExecuted);
+					 this.callersListExecuted.add(meth); 					 
+					 methoddet2.setCalleesListExecuted(callersListExecuted);
 				 }
 				 
 				 ResultSet parameters=st.executeQuery("select parameters.* from parameters where methodid='" + id+"'"); 
