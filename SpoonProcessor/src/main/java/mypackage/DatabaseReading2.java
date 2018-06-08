@@ -48,6 +48,14 @@ public class DatabaseReading2 {
 	 */
 	private final String dbName = "databasechess";
 
+	public static List<MethodTrace2> getMethodtraces2() {
+		return methodtraces2;
+	}
+
+	public static void setMethodtraces2(List<MethodTrace2> methodtraces2) {
+		DatabaseReading2.methodtraces2 = methodtraces2;
+	}
+
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		Properties connectionProps = new Properties();
