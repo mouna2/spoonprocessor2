@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jdt.internal.core.nd.db.Database;
@@ -12,13 +13,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.widgets.Combo;
 
 public class mygui {
 
 	protected Shell shell;
 	private Table table;
 	
-	
+	static List<MethodTrace2> methodtraces2= new ArrayList<MethodTrace2>(); 
 	/**
 	 * Launch the application.
 	 * @param args
@@ -29,7 +31,7 @@ public class mygui {
 			DatabaseReading2 databaseread= new DatabaseReading2(); 
 			
 			databaseread.MakePredictions();
-			List<MethodTrace2> methodtraces2 = databaseread.getMethodtraces2(); 
+			 methodtraces2 = databaseread.getMethodtraces2(); 
 			mygui window = new mygui();
 			window.open();
 		} catch (Exception e) {
@@ -119,10 +121,16 @@ public class mygui {
 		tblclmnCalleesExecuted.setWidth(150);
 		tblclmnCalleesExecuted.setText("CalleesExecuted");
 		
+		Combo combo = new Combo(shell, SWT.NONE);
+		combo.setBounds(1012, 61, 97, 28);
 		
 		
-		TableItem item1 = new TableItem(table, SWT.NONE);
-	    item1.setText(new String[] { "Column1 text", "Column2 text", "Column3 text" });
+		for(MethodTrace2 meth: methodtraces2) {
+			TableItem item1 = new TableItem(table, SWT.NONE);
+		    item1.setText(new String[] { meth.MethodRepresentation.getMethodid(), meth.MethodRepresentation.getMethodname(), meth.Requirement.getID(), meth.Requirement.RequirementName, meth.ClassRepresentation.classid, meth.ClassRepresentation.classname, meth.gold
+		    		, meth.subject, meth.goldprediction});
+		}
+		
 
 	}
 }
