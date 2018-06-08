@@ -119,6 +119,8 @@ public class mygui {
 		tblclmnCalleesExecuted.setWidth(150);
 		tblclmnCalleesExecuted.setText("CalleesExecuted");
 		
+		
+		
 		TableItem item1 = new TableItem(table, SWT.NONE);
 	    item1.setText(new String[] { "Column1 text", "Column2 text", "Column3 text" });
 
