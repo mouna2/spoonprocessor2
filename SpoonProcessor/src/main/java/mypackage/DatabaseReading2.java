@@ -28,7 +28,7 @@ import spoon.reflect.factory.ClassFactory;
 
 public class DatabaseReading2 {
 	public static HashMap<Integer, String> classesHashMap = new HashMap<Integer, String>();
-
+	public static List<MethodTrace2> methodtraces2 = null;
 	/** The name of the MySQL account to use (or empty for anonymous) */
 	private final String userName = "root";
 
@@ -65,6 +65,12 @@ public class DatabaseReading2 {
 	}
 
 	public static void main(String[] args) throws SQLException {
+		MakePredictions();
+
+	}
+	/**
+	 * @throws SQLException ***********************************************************************************************************************/
+	public static void MakePredictions() throws SQLException {
 		Connection conn = null;
 		DatabaseReading2 DatabaseReading = new DatabaseReading2();
 		conn = DatabaseReading.getConnection();
@@ -120,7 +126,7 @@ public class DatabaseReading2 {
 		HashMap<Integer, MethodTrace2> methodtracehashmap = methodtrace2.ReadClassesRepresentations(conn);
 		List<MethodTrace2> methodtraces = new ArrayList<MethodTrace2>(methodtracehashmap.values());
 		///////////////////////////////////////////////////////////////////////////////////////
-		List<MethodTrace2> methodtraces2 = null;
+		
 		System.out.println("MOUNA");
 
 		for (MethodTrace2 tracemeth : methodtraces) {
@@ -244,5 +250,4 @@ public class DatabaseReading2 {
 		System.out.println("GOLDMATCHING/TOTAL NOT NULL: =====> " + GoldMatching + " / " + MethodTracesSizeNotNull);
 
 	}
-
 }
