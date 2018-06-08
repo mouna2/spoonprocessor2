@@ -13,6 +13,8 @@ public class Method2Details {
 	ClassRepresentation2 OwnerClass; 
 	List<Method2Representation> callersList= new ArrayList<Method2Representation>(); 
 	List<Method2Representation> calleesList= new ArrayList<Method2Representation>(); 
+	List<Method2Representation> callersListExecuted= new ArrayList<Method2Representation>(); 
+	List<Method2Representation> calleesListExecuted= new ArrayList<Method2Representation>(); 
 	List<Parameter2> parametersList= new ArrayList<Parameter2>(); 
 	List<MethodField2> methodfieldsList= new ArrayList<MethodField2>();  
 	HashMap<Requirement2, MethodTrace2> methodtraces= new HashMap <Requirement2, MethodTrace2>();
@@ -21,6 +23,18 @@ public class Method2Details {
 	
 	HashMap<Integer, Method2Details> MethodDetailsHashMap= new HashMap<Integer, Method2Details>(); 
 	
+	public List<Method2Representation> getCallersListExecuted() {
+		return callersListExecuted;
+	}
+	public void setCallersListExecuted(List<Method2Representation> callersListExecuted) {
+		this.callersListExecuted = callersListExecuted;
+	}
+	public List<Method2Representation> getCalleesListExecuted() {
+		return calleesListExecuted;
+	}
+	public void setCalleesListExecuted(List<Method2Representation> calleesListExecuted) {
+		this.calleesListExecuted = calleesListExecuted;
+	}
 	public Method2Representation getMethodrep() {
 		return methodrep;
 	}
@@ -77,6 +91,23 @@ public class Method2Details {
 	} 
 	
 	
+	public Method2Details(Method2Representation methodrep, ClassRepresentation2 ownerClass,
+			List<Method2Representation> callersList, List<Method2Representation> calleesList,
+			List<Method2Representation> callersListExecuted, List<Method2Representation> calleesListExecuted,
+			List<Parameter2> parametersList, List<MethodField2> methodfieldsList,
+			HashMap<Requirement2, MethodTrace2> methodtraces, HashMap<Integer, Method2Details> methodDetailsHashMap) {
+		super();
+		this.methodrep = methodrep;
+		OwnerClass = ownerClass;
+		this.callersList = callersList;
+		this.calleesList = calleesList;
+		this.callersListExecuted = callersListExecuted;
+		this.calleesListExecuted = calleesListExecuted;
+		this.parametersList = parametersList;
+		this.methodfieldsList = methodfieldsList;
+		this.methodtraces = methodtraces;
+		MethodDetailsHashMap = methodDetailsHashMap;
+	}
 	public Method2Details() {
 		// TODO Auto-generated constructor stub
 	}
@@ -136,6 +167,28 @@ public class Method2Details {
 					 methoddet2.setCallees(calleesList);
 				 }
 				 
+				 
+				 ResultSet callersExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where calleemethodid='" + id+"'"); 
+				 this.callersListExecuted= new  ArrayList<Method2Representation>(); 
+				 while(callersExecuted.next()) {
+					 
+					 Method2Representation meth= new Method2Representation(); 	
+					 meth.setMethodid(callersExecuted.getString("callermethodid"));
+					 meth.setMethodname(callersExecuted.getString("callername"));
+					 this.callersListExecuted.add(meth); 					 
+					 methoddet2.setCallersListExecuted(callersListExecuted);
+				 }
+				 
+				 ResultSet calleesExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where callermethodid='" + id+"'"); 
+				 this.calleesListExecuted= new  ArrayList<Method2Representation>(); 
+				 while(calleesExecuted.next()) {
+					
+					 Method2Representation meth= new Method2Representation(); 	
+					 meth.setMethodid(calleesExecuted.getString("calleemethodid"));
+					 meth.setMethodname(calleesExecuted.getString("calleename"));
+					 this.calleesListExecuted.add(meth); 					 
+					 methoddet2.setCallees(calleesListExecuted);
+				 }
 				 
 				 ResultSet parameters=st.executeQuery("select parameters.* from parameters where methodid='" + id+"'"); 
 				 this.parametersList= new ArrayList<Parameter2>(); 

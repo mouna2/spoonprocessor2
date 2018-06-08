@@ -1428,7 +1428,7 @@ catch (IOException e) {
 /*********************************************************************************************************************************************************************************/	
 /*********************************************************************************************************************************************************************************/	
 /*********************************************************************************************************************************************************************************/   
-/*String statement4 = "DELETE FROM `methodcalls` WHERE callername ='"+"CALLER"+"'";		
+String statement4 = "DELETE FROM `methodcalls` WHERE callername ='"+"CALLER"+"'";		
 st.executeUpdate(statement4);
 
 statement4 = "DELETE FROM `methodcalls` WHERE callername ='"+"CALLER2"+"'";		
@@ -1468,7 +1468,7 @@ st.executeUpdate(statement10);
 statement10 = "INSERT INTO `methodcalls`(`callermethodid`, `callername`, `callerclass`, `calleemethodid`, `calleename`,`calleeclass`) VALUES ('"+744+"','" +"CALLER2"+"','" +"CALLER CLASS"+"','" +742+"','" +"CALLEE METH"+"','"+"CALLEE CLASS" +"')";		
 st.executeUpdate(statement10);
 
-*/
+
 
 //CREATE TRACES TABLE 
 

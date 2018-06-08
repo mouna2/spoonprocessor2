@@ -154,26 +154,78 @@ public class DatabaseReading2 {
 										 System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
 										 methodtraces2 =  methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold); 
 									 }
+									 
 							}		 
 			}
 			
 			 }
 			
 	}
-/********************************************************************************************************************************/
-/********************************************************************************************************************************/
-/********************************************************************************************************************************/
 
-	
-
-/********************************************************************************************************************************/
-/********************************************************************************************************************************/
-/********************************************************************************************************************************/	
 	
 	
 	
 			}
 	
+			
+		/***********************************************************************************************************************/	
+		/***********************************************************************************************************************/	
+		/***********************************************************************************************************************/	
+		
+			for( MethodTrace2 tracemeth: methodtraces) {
+				Requirement2 requirement= tracemeth.getRequirement();  
+				Method2Representation MethodRepresentation = tracemeth.getMethodRepresentation(); 
+				String gold= tracemeth.getGold(); 
+				for(Method2Details method: methodlist) {
+					Method2Representation MethodRepresentation2 = method.getMethodrep(); 
+					List<Method2Representation> CalleesExecuted = method.calleesListExecuted; 
+					for(Method2Representation CalleeExecuted: CalleesExecuted) {
+						if(CalleeExecuted.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
+							 HashMap<Requirement2, MethodTrace2> methodtracesHash = method.getMethodtraces();
+							 List<MethodTrace2> methodtracesList = new ArrayList<MethodTrace2>(methodtracesHash.values());	
+							 for(MethodTrace2 methtrace: methodtracesList) {
+								 
+								 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID) && methtrace.getGoldprediction()==null){
+									 System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
+									 methodtraces2 = methtrace.getElement(methodtraces, CalleeExecuted.methodid, methtrace.gold); 
+								 }
+						}
+				
+				}
+				
+			}
+					
+					 List<Method2Representation> CallersExecuted = method.callersListExecuted; 
+					 for(Method2Representation CallerExecuted: CallersExecuted) {
+							if(CallerExecuted.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
+								 HashMap<Requirement2, MethodTrace2> methodtracesHashCallers = method.getMethodtraces();
+								 List<MethodTrace2> methodtracesCallersListExecuted = new ArrayList<MethodTrace2>(methodtracesHashCallers.values());	
+								 for(MethodTrace2 methtrace: methodtracesCallersListExecuted) {
+									 if(methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID ) && methtrace.getGoldprediction()==null){
+										 System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
+										 methodtraces2 =  methtrace.getElement(methodtraces, CallerExecuted.methodid, methtrace.gold); 
+									 }
+									 
+							}		 
+			}
+			
+			 }
+			
+	}
+
+	
+	
+	
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			for(MethodTrace2 methtr: methodtraces2) {
 				System.out.println(methtr.toString()); 
