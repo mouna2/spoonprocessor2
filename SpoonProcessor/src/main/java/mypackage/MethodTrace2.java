@@ -303,17 +303,17 @@ public class MethodTrace2 {
 		for(Method2Representation callerexecuted: methtr.callersListExecuted) {
 			 mycallerexecuted=	mycallerexecuted+callerexecuted.getMethodid() +" "+callerexecuted.getMethodname(); 
 			for(Requirement2 req: callerexecuted.requirements) {
-				 requicallerexecuted= requicallerexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
+				 requicallerexecuted=requicallerexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
 			}
 			}
 			
 			for(Method2Representation calleeexecuted: methtr.calleesListExecuted) {
 				 mycalleeexecuted=	mycalleeexecuted+calleeexecuted.getMethodid() +" "+calleeexecuted.getMethodname(); 
 				for(Requirement2 req: calleeexecuted.requirements) {
-					 requicalleeexecuted= requicalleeexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
+					 requicalleeexecuted=requicalleeexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
 				}
 				}
-		return st+"CALLER: "+mycaller+requicaller+"CALLEE: "+mycallee+requicallee+"CALLER EXECUTED :"+mycallerexecuted+requicallerexecuted+"CALLEE EXCUTED: "+mycalleeexecuted+requicalleeexecuted; 
+		return st+"CALLER: "+mycaller +"  "+requicaller+"CALLEE: "+mycallee+"   "+requicallee+"CALLER EXECUTED :"+mycallerexecuted+ "  " +requicallerexecuted+"CALLEE EXCUTED: "+mycalleeexecuted+"  "+requicalleeexecuted; 
 			
 	}
 	
