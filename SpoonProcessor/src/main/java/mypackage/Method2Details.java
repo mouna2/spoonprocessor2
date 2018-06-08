@@ -119,6 +119,7 @@ public class Method2Details {
 		//CLASSESHASHMAP
 		String rowcount = null; 
 		Statement st = conn.createStatement();
+		Statement st2 = conn.createStatement();
 		ResultSet var = st.executeQuery("select count(*) from methods"); 
 		while(var.next()){
 			rowcount = var.getString("count(*)");
@@ -148,10 +149,19 @@ public class Method2Details {
 				 ResultSet callers=st.executeQuery("select methodcalls.* from methodcalls where calleemethodid='" + id+"'"); 
 				 this.callersList= new  ArrayList<Method2Representation>(); 
 				 while(callers.next()) {
-					 
+					 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+					 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
+					 while(methodtraces.next()) {
+						 
+						 Requirement2 requirement= new Requirement2(); 
+						 requirement.setID(methodtraces.getString("requirementid"));
+						 requirement.setRequirementName(methodtraces.getString("requirement"));
+						 requirements.add(requirement); 
+					 }
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(callers.getString("callermethodid"));
 					 meth.setMethodname(callers.getString("callername"));
+					 meth.setRequirements(requirements);
 					 this.callersList.add(meth); 					 
 					 methoddet2.setCallers(callersList);
 				 }
@@ -159,10 +169,19 @@ public class Method2Details {
 				 ResultSet callees=st.executeQuery("select methodcalls.* from methodcalls where callermethodid='" + id+"'"); 
 				 this.calleesList= new  ArrayList<Method2Representation>(); 
 				 while(callees.next()) {
-					
+					 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+					 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
+					 while(methodtraces.next()) {
+						 
+						 Requirement2 requirement= new Requirement2(); 
+						 requirement.setID(methodtraces.getString("requirementid"));
+						 requirement.setRequirementName(methodtraces.getString("requirement"));
+						 requirements.add(requirement); 
+					 }
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(callees.getString("calleemethodid"));
 					 meth.setMethodname(callees.getString("calleename"));
+					 meth.setRequirements(requirements);
 					 this.calleesList.add(meth); 					 
 					 methoddet2.setCallees(calleesList);
 				 }
@@ -171,10 +190,19 @@ public class Method2Details {
 				 ResultSet callersExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where calleemethodid='" + id+"'"); 
 				 this.calleesListExecuted= new  ArrayList<Method2Representation>(); 
 				 while(callersExecuted.next()) {
-					 
+					 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+					 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
+					 while(methodtraces.next()) {
+						 
+						 Requirement2 requirement= new Requirement2(); 
+						 requirement.setID(methodtraces.getString("requirementid"));
+						 requirement.setRequirementName(methodtraces.getString("requirement"));
+						 requirements.add(requirement); 
+					 }
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(callersExecuted.getString("callermethodid"));
 					 meth.setMethodname(callersExecuted.getString("callername"));
+					 meth.setRequirements(requirements);
 					 this.calleesListExecuted.add(meth); 					 
 					 methoddet2.setCallersListExecuted(calleesListExecuted);
 				 }
@@ -182,10 +210,19 @@ public class Method2Details {
 				 ResultSet calleesExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where callermethodid='" + id+"'"); 
 				 this.callersListExecuted= new  ArrayList<Method2Representation>(); 
 				 while(calleesExecuted.next()) {
-					
+					 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+					 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
+					 while(methodtraces.next()) {
+						 
+						 Requirement2 requirement= new Requirement2(); 
+						 requirement.setID(methodtraces.getString("requirementid"));
+						 requirement.setRequirementName(methodtraces.getString("requirement"));
+						 requirements.add(requirement); 
+					 }
 					 Method2Representation meth= new Method2Representation(); 	
 					 meth.setMethodid(calleesExecuted.getString("calleemethodid"));
 					 meth.setMethodname(calleesExecuted.getString("calleename"));
+					 meth.setRequirements(requirements);
 					 this.callersListExecuted.add(meth); 					 
 					 methoddet2.setCalleesListExecuted(callersListExecuted);
 				 }

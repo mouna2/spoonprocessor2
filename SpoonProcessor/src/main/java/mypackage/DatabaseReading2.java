@@ -226,7 +226,7 @@ public class DatabaseReading2 {
 		}
 
 		for (MethodTrace2 methtr : methodtraces2) {
-			System.out.println(methtr.toString());
+			System.out.println(methtr.toString(methtr));
 		}
 
 		int MethodTracesSize = methodtraces.size();

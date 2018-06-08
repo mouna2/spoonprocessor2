@@ -1,8 +1,11 @@
 package mypackage;
 
+import java.util.List;
+
 public class Method2Representation {
 	String methodid; 
 	String methodname;
+	List<Requirement2> requirements; 
 	public Method2Representation(String methodid, String methodname) {
 		super();
 		this.methodid = methodid;
@@ -26,7 +29,20 @@ public class Method2Representation {
 	@Override
 	public String toString() {
 		return "Method2Representation [methodid=" + methodid + ", methodname=" + methodname + "]";
-	} 
+	}
+	public List<Requirement2> getRequirements() {
+		return requirements;
+	}
+	public void setRequirements(List<Requirement2> requirements) {
+		this.requirements = requirements;
+	}
+	public Method2Representation(String methodid, String methodname, List<Requirement2> requirements) {
+		super();
+		this.methodid = methodid;
+		this.methodname = methodname;
+		this.requirements = requirements;
+	}
+	
 	
 	
 	
