@@ -121,8 +121,7 @@ public class mygui {
 		tblclmnCalleesExecuted.setWidth(150);
 		tblclmnCalleesExecuted.setText("CalleesExecuted");
 		
-		Combo combo = new Combo(shell, SWT.NONE);
-		combo.setBounds(1012, 61, 97, 28);
+	
 		
 		
 		for(MethodTrace2 meth: methodtraces2) {
