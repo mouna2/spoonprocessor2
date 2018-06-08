@@ -12,7 +12,13 @@ import mypackage.MethodTrace2;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.custom.TreeEditor;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 
 public class mygui {
@@ -121,7 +127,11 @@ public class mygui {
 		tblclmnCalleesExecuted.setWidth(150);
 		tblclmnCalleesExecuted.setText("CalleesExecuted");
 		
-	
+		Combo combo = new Combo(shell, SWT.NONE);
+		combo.setBounds(1011, 49, 97, 28);
+		
+
+     
 		
 		
 		for(MethodTrace2 meth: methodtraces2) {
