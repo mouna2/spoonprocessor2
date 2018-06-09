@@ -16,12 +16,30 @@ public class MethodTrace2 {
 	public String gold; 
 	public String subject;
 	public String goldprediction; 
+	public String goldpredictionCaller; 
+	public String goldpredictionCallee; 	
 	List<Method2Representation> callersList= new ArrayList<Method2Representation>(); 
 	List<Method2Representation> calleesList= new ArrayList<Method2Representation>(); 
 	List<Method2Representation> callersListExecuted= new ArrayList<Method2Representation>(); 
 	List<Method2Representation> calleesListExecuted= new ArrayList<Method2Representation>(); 
 	
 	
+	public String getGoldpredictionCaller() {
+		return goldpredictionCaller;
+	}
+
+	public void setGoldpredictionCaller(String goldpredictionCaller) {
+		this.goldpredictionCaller = goldpredictionCaller;
+	}
+
+	public String getGoldpredictionCallee() {
+		return goldpredictionCallee;
+	}
+
+	public void setGoldpredictionCallee(String goldpredictionCallee) {
+		this.goldpredictionCallee = goldpredictionCallee;
+	}
+
 	public List<Method2Representation> getCallersList() {
 		return callersList;
 	}
@@ -150,6 +168,7 @@ public class MethodTrace2 {
 		 ResultSet myresults = st.executeQuery("SELECT traces.* from traces where id='"+ index +"'"); 
 		 while(myresults.next()) {
 			 MethodTrace2 mytrace= new MethodTrace2(); 
+			 RequirementGold RequirementGold = new RequirementGold(); 
 			 Requirement2 requirement = new Requirement2(); 
 			 requirement.setID(myresults.getString("requirementid"));
 			 requirement.setRequirementName(myresults.getString("requirement"));
@@ -174,19 +193,22 @@ public class MethodTrace2 {
 			 ResultSet callers=st.executeQuery("select methodcalls.* from methodcalls where calleemethodid='" + id+"'"); 
 			 this.callersList= new  ArrayList<Method2Representation>(); 
 			 while(callers.next()) {
-				 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+				 List<RequirementGold> requirementsGold = new ArrayList<RequirementGold>(); 
 				 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
 				 while(methodtraces.next()) {
 					 
 					  requirement= new Requirement2(); 
+					  RequirementGold= new RequirementGold(); 
 					 requirement.setID(methodtraces.getString("requirementid"));
 					 requirement.setRequirementName(methodtraces.getString("requirement"));
-					 requirements.add(requirement); 
+					 RequirementGold.setRequirement(requirement);
+					 RequirementGold.setGold(methodtraces.getString("gold"));
+					 requirementsGold.add(RequirementGold); 
 				 }
 				 Method2Representation meth= new Method2Representation(); 	
 				 meth.setMethodid(callers.getString("callermethodid"));
 				 meth.setMethodname(callers.getString("callername"));
-				 meth.setRequirements(requirements);
+				 meth.setRequirementsGold(requirementsGold);
 				 this.callersList.add(meth); 					 
 				 mytrace.setCallersList(this.callersList);
 			 }
@@ -194,19 +216,22 @@ public class MethodTrace2 {
 			 ResultSet callees=st.executeQuery("select methodcalls.* from methodcalls where callermethodid='" + id+"'"); 
 			 this.calleesList= new  ArrayList<Method2Representation>(); 
 			 while(callees.next()) {
-				 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+				 List<RequirementGold> requirementsGold = new ArrayList<RequirementGold>(); 
 				 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
 				 while(methodtraces.next()) {
 					 
-					  requirement= new Requirement2(); 
+					 requirement= new Requirement2(); 
+					  RequirementGold= new RequirementGold(); 
 					 requirement.setID(methodtraces.getString("requirementid"));
 					 requirement.setRequirementName(methodtraces.getString("requirement"));
-					 requirements.add(requirement); 
+					 RequirementGold.setRequirement(requirement);
+					 RequirementGold.setGold(methodtraces.getString("gold"));
+					 requirementsGold.add(RequirementGold); 
 				 }
 				 Method2Representation meth= new Method2Representation(); 	
 				 meth.setMethodid(callees.getString("calleemethodid"));
 				 meth.setMethodname(callees.getString("calleename"));
-				 meth.setRequirements(requirements);
+				 meth.setRequirementsGold(requirementsGold);
 				 this.calleesList.add(meth); 					 
 				 mytrace.setCalleesList(this.calleesList);
 			 }
@@ -215,19 +240,22 @@ public class MethodTrace2 {
 			 ResultSet callersExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where calleemethodid='" + id+"'"); 
 			 this.calleesListExecuted= new  ArrayList<Method2Representation>(); 
 			 while(callersExecuted.next()) {
-				 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+				 List<RequirementGold> requirementsGold = new ArrayList<RequirementGold>(); 
 				 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
 				 while(methodtraces.next()) {
 					 
-					  requirement= new Requirement2(); 
+					 requirement= new Requirement2(); 
+					  RequirementGold= new RequirementGold(); 
 					 requirement.setID(methodtraces.getString("requirementid"));
 					 requirement.setRequirementName(methodtraces.getString("requirement"));
-					 requirements.add(requirement); 
+					 RequirementGold.setRequirement(requirement);
+					 RequirementGold.setGold(methodtraces.getString("gold"));
+					 requirementsGold.add(RequirementGold); 
 				 }
 				 Method2Representation meth= new Method2Representation(); 	
 				 meth.setMethodid(callersExecuted.getString("callermethodid"));
 				 meth.setMethodname(callersExecuted.getString("callername"));
-				 meth.setRequirements(requirements);
+				 meth.setRequirementsGold(requirementsGold);
 				 this.calleesListExecuted.add(meth); 					 
 				 mytrace.setCallersListExecuted(this.calleesListExecuted);
 			 }
@@ -235,19 +263,22 @@ public class MethodTrace2 {
 			 ResultSet calleesExecuted=st.executeQuery("select methodcallsexecuted.* from methodcallsexecuted where callermethodid='" + id+"'"); 
 			 this.callersListExecuted= new  ArrayList<Method2Representation>(); 
 			 while(calleesExecuted.next()) {
-				 List<Requirement2> requirements = new ArrayList<Requirement2>(); 
+				 List<RequirementGold> requirementsGold = new ArrayList<RequirementGold>(); 
 				 ResultSet methodtraces=st2.executeQuery("select traces.* from traces where methodid='" + id+"'"); 
 				 while(methodtraces.next()) {
 					 
-					  requirement= new Requirement2(); 
+					 requirement= new Requirement2(); 
+					  RequirementGold= new RequirementGold(); 
 					 requirement.setID(methodtraces.getString("requirementid"));
 					 requirement.setRequirementName(methodtraces.getString("requirement"));
-					 requirements.add(requirement); 
+					 RequirementGold.setRequirement(requirement);
+					 RequirementGold.setGold(methodtraces.getString("gold"));
+					 requirementsGold.add(RequirementGold); 
 				 }
 				 Method2Representation meth= new Method2Representation(); 	
 				 meth.setMethodid(calleesExecuted.getString("calleemethodid"));
 				 meth.setMethodname(calleesExecuted.getString("calleename"));
-				 meth.setRequirements(requirements);
+				 meth.setRequirementsGold(requirementsGold);
 				 this.callersListExecuted.add(meth); 					 
 				 mytrace.setCalleesListExecuted(this.callersListExecuted);
 			 }
@@ -261,10 +292,16 @@ public class MethodTrace2 {
 		return methodtraceHashMap;
 	}
 	
-	public List<MethodTrace2> getElement(List<MethodTrace2> methodtraces2, String ID, String goldpred) {
+	public List<MethodTrace2> getElement(List<MethodTrace2> methodtraces2, String ID, String goldpred, String goldprediction2, String RequirementID) {
 		for(MethodTrace2 methodtrace: methodtraces2) {
-			if(methodtrace.getMethodRepresentation().methodid.equals(ID)) {
-				methodtrace.setGoldprediction(goldpred);
+			if(methodtrace.getMethodRepresentation().methodid.equals(ID) && methodtrace.Requirement.ID.equals(RequirementID)) {
+				if(goldprediction2.equals("goldpredictionCallee")){
+					methodtrace.setGoldpredictionCallee(goldpred);
+				}
+				else if(goldprediction2.equals("goldpredictionCaller")) {
+					methodtrace.setGoldpredictionCaller(goldpred);
+				}
+				
 			}
 		}
 		
@@ -285,35 +322,35 @@ public class MethodTrace2 {
 		
 		+ ", Requirement=" + methtr.Requirement.toString()
 			+ ", ClassRepresentation=" + methtr.ClassRepresentation.toString() + ", gold=" + methtr.gold + ", subject=" + methtr.subject 
-				+ ", goldprediction=" + methtr.goldprediction ; 
+				+ ", goldpredictionCaller=" + methtr.goldpredictionCaller+ ", goldpredictionCallee=" + methtr.goldpredictionCallee ; 
 		for(Method2Representation caller: methtr.callersList) {
 		 mycaller=	mycaller+caller.getMethodid() +" "+caller.getMethodname(); 
-		for(Requirement2 req: caller.requirements) {
-			 requicaller= requicaller+ " "+ req.getID()+ "  "+ req.RequirementName; 
+		for(RequirementGold req: caller.requirementsGold) {
+			 requicaller= requicaller+ " "+ req.Requirement.ID+ "  "+ req.Requirement.RequirementName; 
 		}
 		}
 		
 		for(Method2Representation callee: methtr.calleesList) {
 			 mycallee=	mycallee+callee.getMethodid() +" "+callee.getMethodname(); 
-			for(Requirement2 req: callee.requirements) {
-				 requicallee= requicallee+ " "+ req.getID()+ "  "+ req.RequirementName; 
+			for(RequirementGold req: callee.requirementsGold) {
+				 requicallee= requicallee+ " "+ req.Requirement.ID+ "  "+ req.Requirement.RequirementName; 
 			}
 			}
 		
 		for(Method2Representation callerexecuted: methtr.callersListExecuted) {
 			 mycallerexecuted=	mycallerexecuted+callerexecuted.getMethodid() +" "+callerexecuted.getMethodname(); 
-			for(Requirement2 req: callerexecuted.requirements) {
-				 requicallerexecuted=requicallerexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
+			for(RequirementGold req: callerexecuted.requirementsGold) {
+				 requicallerexecuted=requicallerexecuted+ " "+ req.Requirement.ID+ "  "+ req.Requirement.RequirementName; 
 			}
 			}
 			
 			for(Method2Representation calleeexecuted: methtr.calleesListExecuted) {
 				 mycalleeexecuted=	mycalleeexecuted+calleeexecuted.getMethodid() +" "+calleeexecuted.getMethodname(); 
-				for(Requirement2 req: calleeexecuted.requirements) {
-					 requicalleeexecuted=requicalleeexecuted+ " "+ req.getID()+ "  "+ req.RequirementName; 
+				for(RequirementGold req: calleeexecuted.requirementsGold) {
+					 requicalleeexecuted=requicalleeexecuted+ " "+ req.Requirement.ID+ "  "+ req.Requirement.RequirementName; 
 				}
 				}
-		return st+"CALLER: "+mycaller +"  "+requicaller+"CALLEE: "+mycallee+"   "+requicallee+"CALLER EXECUTED :"+mycallerexecuted+ "  " +requicallerexecuted+"CALLEE EXCUTED: "+mycalleeexecuted+"  "+requicalleeexecuted; 
+		return st+"   CALLER: "+mycaller +"  "+requicaller+"CALLEE: "+mycallee+"   "+requicallee+"CALLER EXECUTED :"+mycallerexecuted+ "  " +requicallerexecuted+"CALLEE EXCUTED: "+mycalleeexecuted+"  "+requicalleeexecuted; 
 			
 	}
 	

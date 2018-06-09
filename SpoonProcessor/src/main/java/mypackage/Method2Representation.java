@@ -1,11 +1,13 @@
 package mypackage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Method2Representation {
 	String methodid; 
 	String methodname;
-	List<Requirement2> requirements; 
+	List<RequirementGold> requirementsGold= new ArrayList<RequirementGold>(); 
+	List<Requirement2> requirements= new ArrayList<Requirement2>(); 
 	public Method2Representation(String methodid, String methodname) {
 		super();
 		this.methodid = methodid;
@@ -28,7 +30,25 @@ public class Method2Representation {
 	}
 	@Override
 	public String toString() {
-		return "Method2Representation [methodid=" + methodid + ", methodname=" + methodname + "]";
+		return "Method2Representation [methodid=" + methodid + ", methodname=" + methodname + ", requirementsGold="
+				+ requirementsGold.toString() + "]";
+	}
+	
+	
+	public String PrintList(List<Method2Representation> methods) {
+		String s =""; 
+		for(Method2Representation mymethod: methods) {
+			 s= s +mymethod.toString(); 
+		}
+		return s; 
+	}
+	
+	
+	public List<RequirementGold> getRequirementsGold() {
+		return requirementsGold;
+	}
+	public void setRequirementsGold(List<RequirementGold> requirementsGold) {
+		this.requirementsGold = requirementsGold;
 	}
 	public List<Requirement2> getRequirements() {
 		return requirements;
@@ -36,12 +56,8 @@ public class Method2Representation {
 	public void setRequirements(List<Requirement2> requirements) {
 		this.requirements = requirements;
 	}
-	public Method2Representation(String methodid, String methodname, List<Requirement2> requirements) {
-		super();
-		this.methodid = methodid;
-		this.methodname = methodname;
-		this.requirements = requirements;
-	}
+	
+	
 	
 	
 	

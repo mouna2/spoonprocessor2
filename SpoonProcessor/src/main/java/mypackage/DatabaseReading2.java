@@ -48,14 +48,6 @@ public class DatabaseReading2 {
 	 */
 	private final String dbName = "databasechess";
 
-	public static List<MethodTrace2> getMethodtraces2() {
-		return methodtraces2;
-	}
-
-	public static void setMethodtraces2(List<MethodTrace2> methodtraces2) {
-		DatabaseReading2.methodtraces2 = methodtraces2;
-	}
-
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		Properties connectionProps = new Properties();
@@ -136,7 +128,7 @@ public class DatabaseReading2 {
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		System.out.println("MOUNA");
-
+		/*String goldprediction=""; 
 		for (MethodTrace2 tracemeth : methodtraces) {
 			Requirement2 requirement = tracemeth.getRequirement();
 			Method2Representation MethodRepresentation = tracemeth.getMethodRepresentation();
@@ -152,7 +144,8 @@ public class DatabaseReading2 {
 
 							if (methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID)) {
 								System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
-								methodtraces2 = methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold);
+								goldprediction="goldpredictionCallee"; 
+								methodtraces2 = methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold, goldprediction, tracemeth.getRequirement().ID);
 							}
 						}
 
@@ -169,7 +162,8 @@ public class DatabaseReading2 {
 						for (MethodTrace2 methtrace : methodtracesCallersList) {
 							if (methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID)) {
 								System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
-								methodtraces2 = methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold);
+								goldprediction="goldpredictionCaller"; 
+								methodtraces2 = methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold, goldprediction, tracemeth.getRequirement().ID);
 							}
 
 						}
@@ -180,54 +174,117 @@ public class DatabaseReading2 {
 			}
 
 		}
-
-		/***********************************************************************************************************************/
-		/***********************************************************************************************************************/
-		/***********************************************************************************************************************/
-
+*/
+		
+		
+		String goldprediction=""; 
+		String GoldVal=""; 
 		for (MethodTrace2 tracemeth : methodtraces) {
-			Requirement2 requirement = tracemeth.getRequirement();
-			Method2Representation MethodRepresentation = tracemeth.getMethodRepresentation();
-			String gold = tracemeth.getGold();
+			
 			for (Method2Details method : methodlist) {
-				Method2Representation MethodRepresentation2 = method.getMethodrep();
+				List<Method2Representation> Callees = method.calleesList;
+				for (Method2Representation Callee : Callees) {
+					if (Callee.methodid.equals(tracemeth.getMethodRepresentation().methodid) ) {
+						
+							for(RequirementGold reqgoldCallee: Callee.getRequirementsGold()) {
+								if(reqgoldCallee.Requirement.ID.equals(tracemeth.Requirement.ID)) {
+									goldprediction="goldpredictionCaller"; 
+									GoldVal= reqgoldCallee.gold; 
+									methodtraces2 = tracemeth.getElement(methodtraces, tracemeth.MethodRepresentation.methodid,
+											GoldVal, goldprediction, tracemeth.getRequirement().ID);
+								}
+							}
+						
+						
+						
+				
+
+					}
+
+				}
+			}
+		}
+				 GoldVal=""; 
+				for (MethodTrace2 tracemeth2 : methodtraces) {
+					
+					for (Method2Details method2 : methodlist) {
+						List<Method2Representation> Callers = method2.callersList;
+						for (Method2Representation Caller : Callers) {
+							if (Caller.methodid.equals(tracemeth2.getMethodRepresentation().methodid) ) {
+								
+									for(RequirementGold reqgoldCaller: Caller.getRequirementsGold()) {
+										if(reqgoldCaller.Requirement.ID.equals(tracemeth2.Requirement.ID)) {
+											goldprediction="goldpredictionCallee"; 
+											GoldVal= reqgoldCaller.gold; 
+											methodtraces2 = tracemeth2.getElement(methodtraces, tracemeth2.MethodRepresentation.methodid,
+													GoldVal, goldprediction, tracemeth2.getRequirement().ID);
+										}
+									}
+								
+								
+								
+						
+
+							}
+
+						}
+
+			}
+
+		}
+		/***********************************************************************************************************************/
+		/***********************************************************************************************************************/
+		/***********************************************************************************************************************/
+		 GoldVal=""; 
+		for (MethodTrace2 tracemeth : methodtraces) {
+			
+			for (Method2Details method : methodlist) {
 				List<Method2Representation> CalleesExecuted = method.calleesListExecuted;
 				for (Method2Representation CalleeExecuted : CalleesExecuted) {
-					if (CalleeExecuted.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
-						HashMap<Requirement2, MethodTrace2> methodtracesHash = method.getMethodtraces();
-						List<MethodTrace2> methodtracesList = new ArrayList<MethodTrace2>(methodtracesHash.values());
-						for (MethodTrace2 methtrace : methodtracesList) {
-
-							if (methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID)
-									&& methtrace.getGoldprediction() == null) {
-								System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
-								methodtraces2 = methtrace.getElement(methodtraces, CalleeExecuted.methodid,
-										methtrace.gold);
+					if (CalleeExecuted.methodid.equals(tracemeth.getMethodRepresentation().methodid) ) {
+						
+							for(RequirementGold reqgoldCallee: CalleeExecuted.getRequirementsGold()) {
+								if(reqgoldCallee.Requirement.ID.equals(tracemeth.Requirement.ID)) {
+									goldprediction="goldpredictionCaller"; 
+									GoldVal= reqgoldCallee.gold; 
+									methodtraces2 = tracemeth.getElement(methodtraces, tracemeth.MethodRepresentation.methodid,
+											GoldVal, goldprediction, tracemeth.getRequirement().ID);
+								}
 							}
-						}
+						
+						
+						
+				
 
 					}
 
 				}
+			}
+		}
+				 GoldVal=""; 
+				for (MethodTrace2 tracemeth2 : methodtraces) {
+					
+					for (Method2Details method2 : methodlist) {
+						List<Method2Representation> CallersExecuted = method2.callersListExecuted;
+						for (Method2Representation CallerExecuted : CallersExecuted) {
+							if (CallerExecuted.methodid.equals(tracemeth2.getMethodRepresentation().methodid) ) {
+								
+									for(RequirementGold reqgoldCaller: CallerExecuted.getRequirementsGold()) {
+										if(reqgoldCaller.Requirement.ID.equals(tracemeth2.Requirement.ID)) {
+											goldprediction="goldpredictionCallee"; 
+											GoldVal= reqgoldCaller.gold; 
+											methodtraces2 = tracemeth2.getElement(methodtraces, tracemeth2.MethodRepresentation.methodid,
+													GoldVal, goldprediction, tracemeth2.getRequirement().ID);
+										}
+									}
+								
+								
+								
+						
 
-				List<Method2Representation> CallersExecuted = method.callersListExecuted;
-				for (Method2Representation CallerExecuted : CallersExecuted) {
-					if (CallerExecuted.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
-						HashMap<Requirement2, MethodTrace2> methodtracesHashCallers = method.getMethodtraces();
-						List<MethodTrace2> methodtracesCallersListExecuted = new ArrayList<MethodTrace2>(
-								methodtracesHashCallers.values());
-						for (MethodTrace2 methtrace : methodtracesCallersListExecuted) {
-							if (methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID)
-									&& methtrace.getGoldprediction() == null) {
-								System.out.println("HEYYYYYYYYYYYYYYYY CALLER ");
-								methodtraces2 = methtrace.getElement(methodtraces, CallerExecuted.methodid,
-										methtrace.gold);
 							}
 
 						}
-					}
-
-				}
 
 			}
 
@@ -238,24 +295,53 @@ public class DatabaseReading2 {
 		}
 
 		int MethodTracesSize = methodtraces.size();
-		int GoldMatching = 0;
-		int MethodTracesSizeNotNull = 0;
-
+		int GoldMatchingCaller = 0;
+		int GoldMatchingCallee = 0;
+		int MethodTracesSizeNotNullCaller = 0;
+		int MethodTracesSizeNotNullCallee = 0;
 		for (int i = 0; i < MethodTracesSize - 4; i++) {
-			if (methodtraces2.get(i).getGold().equals(methodtraces2.get(i).getGoldprediction())) {
-				GoldMatching++;
+			if (methodtraces2.get(i).getGold().equals(methodtraces2.get(i).getGoldpredictionCaller())) {
+				GoldMatchingCaller++;
+			}
+		}
+		
+		for (int i = 0; i < MethodTracesSize - 4; i++) {
+			if (methodtraces2.get(i).getGold().equals(methodtraces2.get(i).getGoldpredictionCallee())) {
+				GoldMatchingCallee++;
 			}
 		}
 		MethodTracesSize = MethodTracesSize - 4;
-		System.out.println("GOLDMATCHING/TOTAL : =====> " + GoldMatching + " / " + MethodTracesSize);
+		System.out.println("GOLDMATCHINGCALLER/TOTAL : =====> " + GoldMatchingCaller + " / " + MethodTracesSize);
+		System.out.println("GOLDMATCHINGCALLEE/TOTAL : =====> " + GoldMatchingCallee + " / " + MethodTracesSize);
 
 		for (int i = 0; i < MethodTracesSize ; i++) {
 			//System.out.println("GOLD PRED "+i +"   "+methodtraces2.get(i).getGoldprediction());
-			if (methodtraces2.get(i).getGoldprediction()!=null) {
-				MethodTracesSizeNotNull++;
+			if (methodtraces2.get(i).getGoldpredictionCaller()!=null) {
+				MethodTracesSizeNotNullCaller++;
 			}
 		}
-		System.out.println("GOLDMATCHING/TOTAL NOT NULL: =====> " + GoldMatching + " / " + MethodTracesSizeNotNull);
+		
+		for (int i = 0; i < MethodTracesSize ; i++) {
+			//System.out.println("GOLD PRED "+i +"   "+methodtraces2.get(i).getGoldprediction());
+			if (methodtraces2.get(i).getGoldpredictionCallee()!=null) {
+				MethodTracesSizeNotNullCallee++;
+			}
+		}
+		System.out.println("GOLDMATCHINGCALLER/TOTAL NOT NULL: =====> " + GoldMatchingCaller + " / " + MethodTracesSizeNotNullCaller);
+		System.out.println("GOLDMATCHINGCALLEE/TOTAL NOT NULL: =====> " + GoldMatchingCallee + " / " + MethodTracesSizeNotNullCallee);
 
+	
 	}
+
+	public static List<MethodTrace2> getMethodtraces2() {
+		return methodtraces2;
+	}
+
+	public static void setMethodtraces2(List<MethodTrace2> methodtraces2) {
+		DatabaseReading2.methodtraces2 = methodtraces2;
+	}
+	
+	
+	
+	
 }
