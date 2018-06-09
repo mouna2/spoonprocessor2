@@ -73,7 +73,7 @@ public class mygui {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setSize(2000, 2000);
-		shell.setText("SWT Application TEST");
+		shell.setText("TRACES TABLE");
 		
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setBounds(10, 10, 1900, 1900);
