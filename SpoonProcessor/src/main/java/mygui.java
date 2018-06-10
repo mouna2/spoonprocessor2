@@ -152,7 +152,7 @@ public class mygui {
 		
 
 		
-		
+		 int i=0; 
 		
 		for(MethodTrace2 meth: methodtraces2) {
 			TableItem item1 = new TableItem(table, SWT.NONE);
@@ -175,9 +175,68 @@ public class mygui {
 		    combo.add("item 2");
 		    editor.grabHorizontal = true;
 		    editor.setEditor(combo, item1, 0);*/
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		   
+	        if (i < 100) {
+	            TableItem[] items = table.getItems();
+
+	            items = table.getItems();
+	            CCombo comboCallers = new CCombo(table, SWT.NONE);
+	            comboCallers.setText("Callers");
+	            for (Method2Representation caller : methodtraces2.get(i).getCallersList()) {
+	                comboCallers.add(caller.toString());
+
+	            }
+
+	            // items = table.getItems();
+	            CCombo comboCallees = new CCombo(table, SWT.NONE);
+	            comboCallees.setText("Callees");
+	            for (Method2Representation callee : methodtraces2.get(i).getCalleesList()) {
+	                comboCallees.add(callee.toString());
+
+	            }
+
+	            items = table.getItems();
+	            CCombo comboCallersExecuted = new CCombo(table, SWT.NONE);
+	            comboCallersExecuted.setText("CallersExecuted");
+	            for (Method2Representation callerExecuted : methodtraces2.get(i).getCallersListExecuted()) {
+	                comboCallersExecuted.add(callerExecuted.toString());
+
+	            }
+	            items = table.getItems();
+	            CCombo comboCalleesExecuted = new CCombo(table, SWT.NONE);
+	            comboCalleesExecuted.setText("CalleesExecuted");
+	            for (Method2Representation calleeExecuted : methodtraces2.get(i).getCalleesListExecuted()) {
+	                comboCalleesExecuted.add(calleeExecuted.toString());
+
+	            }
+	            TableEditor tableEditor = new TableEditor(table);
+				tableEditor.setEditor(comboCallers, item1, 10);
+	            tableEditor.setEditor(comboCallees, item1, 11);
+	           tableEditor.setEditor(comboCallersExecuted, item1, 12);
+	            tableEditor.setEditor(comboCalleesExecuted, item1, 13);
+
+	            tableEditor.grabHorizontal = true;
+	            i++;
+	        }
+	        
+	        
+	        
+	        
+	        
+	        
+		    
+		    
 		}
-	
-		
+	//TO BE COMMENTED OUT 
+		/*
 		TableItem[] items = table.getItems();
 		  TableEditor tableEditor = new TableEditor(table);
 	    for (int i = 0; i < 100; i++) {
@@ -219,15 +278,15 @@ public class mygui {
 	    	  tableEditor.setEditor(comboCalleesExecuted, items[i], 11);
 	    	  
 	    	  tableEditor.grabHorizontal = true;
-		   
+		  
 	    	 
 	 	    
 	      
 	     
 	     
-	    }
+	    } 
 	  
-	    
+	    */
 		
 		
 		   
