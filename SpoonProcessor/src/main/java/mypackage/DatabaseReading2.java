@@ -141,18 +141,14 @@ public class DatabaseReading2 {
 						HashMap<Requirement2, MethodTrace2> methodtracesHash = method.getMethodtraces();
 						List<MethodTrace2> methodtracesList = new ArrayList<MethodTrace2>(methodtracesHash.values());
 						for (MethodTrace2 methtrace : methodtracesList) {
-
 							if (methtrace.getRequirement().ID.equals(tracemeth.getRequirement().ID)) {
 								System.out.println("HEYYYYYYYYYYYYYYYY CALLEE");
 								goldprediction="goldpredictionCallee"; 
 								methodtraces2 = methtrace.getElement(methodtraces, Callee.methodid, methtrace.gold, goldprediction, tracemeth.getRequirement().ID);
 							}
 						}
-
 					}
-
 				}
-
 				List<Method2Representation> Callers = method.callersList;
 				for (Method2Representation Caller : Callers) {
 					if (Caller.methodid.equals(tracemeth.getMethodRepresentation().methodid)) {
@@ -165,14 +161,10 @@ public class DatabaseReading2 {
 								goldprediction="goldpredictionCaller"; 
 								methodtraces2 = methtrace.getElement(methodtraces, Caller.methodid, methtrace.gold, goldprediction, tracemeth.getRequirement().ID);
 							}
-
 						}
 					}
-
 				}
-
 			}
-
 		}
 */
 		
@@ -190,7 +182,7 @@ public class DatabaseReading2 {
 								if(reqgoldCallee.Requirement.ID.equals(tracemeth.Requirement.ID)) {
 									goldprediction="goldpredictionCaller"; 
 									GoldVal= reqgoldCallee.gold; 
-									methodtraces2 = tracemeth.getElement(methodtraces, tracemeth.MethodRepresentation.methodid,
+									methodtraces2 = tracemeth.getElement(methodtraces, method.methodrep.methodid,
 											GoldVal, goldprediction, tracemeth.getRequirement().ID);
 								}
 							}
@@ -216,7 +208,7 @@ public class DatabaseReading2 {
 										if(reqgoldCaller.Requirement.ID.equals(tracemeth2.Requirement.ID)) {
 											goldprediction="goldpredictionCallee"; 
 											GoldVal= reqgoldCaller.gold; 
-											methodtraces2 = tracemeth2.getElement(methodtraces, tracemeth2.MethodRepresentation.methodid,
+											methodtraces2 = tracemeth2.getElement(methodtraces, method2.methodrep.methodid,
 													GoldVal, goldprediction, tracemeth2.getRequirement().ID);
 										}
 									}
@@ -247,7 +239,7 @@ public class DatabaseReading2 {
 								if(reqgoldCallee.Requirement.ID.equals(tracemeth.Requirement.ID)) {
 									goldprediction="goldpredictionCaller"; 
 									GoldVal= reqgoldCallee.gold; 
-									methodtraces2 = tracemeth.getElement(methodtraces, tracemeth.MethodRepresentation.methodid,
+									methodtraces2 = tracemeth.getElement(methodtraces, method.methodrep.methodid,
 											GoldVal, goldprediction, tracemeth.getRequirement().ID);
 								}
 							}
@@ -273,7 +265,7 @@ public class DatabaseReading2 {
 										if(reqgoldCaller.Requirement.ID.equals(tracemeth2.Requirement.ID)) {
 											goldprediction="goldpredictionCallee"; 
 											GoldVal= reqgoldCaller.gold; 
-											methodtraces2 = tracemeth2.getElement(methodtraces, tracemeth2.MethodRepresentation.methodid,
+											methodtraces2 = tracemeth2.getElement(methodtraces, method2.methodrep.methodid,
 													GoldVal, goldprediction, tracemeth2.getRequirement().ID);
 										}
 									}
