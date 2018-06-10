@@ -25,7 +25,7 @@ public class RequirementGold {
 	}
 	@Override
 	public String toString() {
-		return "RequirementGold [Requirement=" + Requirement + ", gold=" + gold + "]";
+		return "RequirementGold [Requirement=" + Requirement + ", gold=" + gold + "]           ";
 	} 
 	
 	

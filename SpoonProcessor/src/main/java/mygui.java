@@ -257,7 +257,6 @@ public class mygui {
 		          c2.add("Not Applicable");
 		          c2.setText("Not Applicable");
 		        }
-
 		      }
 		    });*/
 
