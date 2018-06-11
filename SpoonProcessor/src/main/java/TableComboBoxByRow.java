@@ -175,6 +175,7 @@ public class TableComboBoxByRow extends JFrame
         table.getColumnModel().getColumn(12).setPreferredWidth(200); 
         table.getColumnModel().getColumn(13).setPreferredWidth(200); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+       
         JScrollPane scrollPane = new JScrollPane( table );
         getContentPane().add( scrollPane );
        JScrollPane horizontalscroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
