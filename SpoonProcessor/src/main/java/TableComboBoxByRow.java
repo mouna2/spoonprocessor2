@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.table.*;
 
 import mypackage.DatabaseReading2;
@@ -13,7 +14,7 @@ import mypackage.MethodTrace2;
  
 public class TableComboBoxByRow extends JFrame
 {
-    List<TableCellEditor> editors = new ArrayList<TableCellEditor>(4);
+  
    static List<MethodTrace2> methodtraces2= new ArrayList<MethodTrace2>(); 
    
 	
@@ -22,6 +23,11 @@ public class TableComboBoxByRow extends JFrame
     	DatabaseReading2 db = new DatabaseReading2(); 
     	DatabaseReading2.MakePredictions();
     	methodtraces2= db.getMethodtraces2(); 
+    	
+    	    List<TableCellEditor> editors1 = new ArrayList<TableCellEditor>(methodtraces2.size());
+    	    List<TableCellEditor> editors2 = new ArrayList<TableCellEditor>(methodtraces2.size());
+    	    List<TableCellEditor> editors3 = new ArrayList<TableCellEditor>(methodtraces2.size());
+    	    List<TableCellEditor> editors4 = new ArrayList<TableCellEditor>(methodtraces2.size());
     	int j=0; 
     	String[] items1 = new String [methodtraces2.size()]; 
     	String[] items2 = new String [methodtraces2.size()]; 
@@ -49,23 +55,25 @@ public class TableComboBoxByRow extends JFrame
 	    		  i++; 
 	    		  
 	    	  }
-    		// data[j][10]=items1; 
-    		 int k=0; 
-    		 items2 = new String[ methodtrace.getCalleesList().size()]; 
-    		 for(Method2Representation caller: methodtrace.getCalleesList()) {
-	    		  items2[k]=caller.toString(); 
-	    		  System.out.println(caller.toString());
-	    		  k++; 
-	    		  
-	    	  }
+    		 
     		 int r=0; 
-    		 items3 = new String[methodtrace.getCallersListExecuted().size()]; 
+    		 items2 = new String[methodtrace.getCallersListExecuted().size()]; 
     		 for(Method2Representation caller: methodtrace.getCallersListExecuted()) {
-	    		  items3[r]=caller.toString(); 
+    			 items2[r]=caller.toString(); 
 	    		  System.out.println(caller.toString());
 	    		  r++; 
 	    		  
 	    	  }
+    		// data[j][10]=items1; 
+    		 int k=0; 
+    		 items3 = new String[ methodtrace.getCalleesList().size()]; 
+    		 for(Method2Representation caller: methodtrace.getCalleesList()) {
+    			 items3[k]=caller.toString(); 
+	    		  System.out.println(caller.toString());
+	    		  k++; 
+	    		  
+	    	  }
+    		
     		 int z=0; 
     		 items4 = new String[10000]; 
     		 for(Method2Representation caller: methodtrace.getCalleesListExecuted()) {
@@ -80,24 +88,34 @@ public class TableComboBoxByRow extends JFrame
     		
     	        JComboBox comboBox1 = new JComboBox( items1 );
     	        DefaultCellEditor dce1 = new DefaultCellEditor( comboBox1 );
-    	        editors.add( dce1 );
+    	        editors1.add( dce1 );
     	        
     	        JComboBox comboBox2 = new JComboBox( items2 );
     	        DefaultCellEditor dce2 = new DefaultCellEditor( comboBox2 );
-    	        editors.add( dce2 );
+    	        editors2.add( dce2 );
     	 
     	        
     	        JComboBox comboBox3 = new JComboBox( items3 );
     	        DefaultCellEditor dce3 = new DefaultCellEditor( comboBox3 );
-    	        editors.add( dce3 );
+    	        editors3.add( dce3 );
     	 
     	        
     	        JComboBox comboBox4 = new JComboBox( items4);
     	        DefaultCellEditor dce4 = new DefaultCellEditor( comboBox4 );
-    	        editors.add( dce4 );
+    	        editors4.add( dce4 );
     	        
-    	       
-    	      
+    	        comboBox1.setEditor(new MyEditor());
+    	        comboBox1.setEditable(true);
+    	        
+    	        comboBox2.setEditor(new MyEditor());
+    	        comboBox2.setEditable(true);
+    	        
+    	        comboBox3.setEditor(new MyEditor());
+    	        comboBox3.setEditable(true);
+    	        
+    	        comboBox4.setEditor(new MyEditor());
+    	        comboBox4.setEditable(true);
+    	     
     	   	 j++; 
     	}
        
@@ -125,7 +143,7 @@ public class TableComboBoxByRow extends JFrame
         
         
         
-        String[] columnNames = {"MethodID","MethodName", "RequirementID", "RequirementName", "ClassID", "ClassName", "Gold", "Subject", "GoldPredictionCaller", "GoldPredictionCallee", 
+        String[] columnNames = {"MethodID","MethodName", "RequirementID", "RequirementName", "ClassID", "ClassName", "Gold", "Subject", "CalleePrediction", "CallerPrediction", 
         		"Callers", "CallersExecuted", "Callees", "CalleesExecuted"};
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         JTable table = new JTable(model)
@@ -136,20 +154,61 @@ public class TableComboBoxByRow extends JFrame
                 int modelColumn = convertColumnIndexToModel( column );
  
                 if (modelColumn == 10 && row < methodtraces2.size())
-                    return editors.get(0);
+                    return editors1.get(row);
+                if (modelColumn == 11 && row < methodtraces2.size())
+                    return editors2.get(row);
+                if (modelColumn == 12 && row < methodtraces2.size())
+                    return editors3.get(row);
+                if (modelColumn == 13 && row < methodtraces2.size())
+                    return editors4.get(row);
                
                 else
                     return super.getCellEditor(row, column);
             }
         };
-        table.getColumnModel().getColumn(10).setWidth(10000);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        table.getColumnModel().getColumn(6).setPreferredWidth(20); 
+        table.getColumnModel().getColumn(7).setPreferredWidth(20); 
+        table.getColumnModel().getColumn(8).setPreferredWidth(30); 
+        table.getColumnModel().getColumn(9).setPreferredWidth(30); 
+        table.getColumnModel().getColumn(10).setPreferredWidth(200); 
+        table.getColumnModel().getColumn(11).setPreferredWidth(200); 
+        table.getColumnModel().getColumn(12).setPreferredWidth(200); 
+        table.getColumnModel().getColumn(13).setPreferredWidth(200); 
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         JScrollPane scrollPane = new JScrollPane( table );
         getContentPane().add( scrollPane );
+       JScrollPane horizontalscroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+       getContentPane().add( horizontalscroll );
 //      table.getColumnModel().getColumn(1).setCellRenderer(new ComboBoxRenderer() );
+      table.setRowHeight(50);
+     
     }
  
- 
+    static class MyEditor extends BasicComboBoxEditor{
+        JScrollPane scroller = new JScrollPane();
+        //NOTE: editor is a JTextField defined in BasicComboBoxEditor
+
+        public MyEditor(){
+            super();
+            scroller.setViewportView(editor); 
+            scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        }
+
+        /** Return a JScrollPane containing the JTextField instead of the JTextField **/
+        @Override
+        public Component getEditorComponent() {
+            return scroller;
+        }
+
+        /** Override to create your own JTextField. **/
+        @Override
+        protected JTextField createEditorComponent() {
+            JTextField editor = new JTextField();
+            editor.setBorder(null);
+            /*editor.setEditable(false); //If you want it not to be editable */
+            return editor;
+        }
+    }
  
     class ComboBoxRenderer extends JComboBox implements TableCellRenderer
     {

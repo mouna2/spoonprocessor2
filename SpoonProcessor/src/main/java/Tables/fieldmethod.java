@@ -16,6 +16,7 @@ public class fieldmethod {
 		this.classid = myclass;
 		this.methodname = methodName2;
 		this.methodid = methodid2;
+		
 	}
 
 	public boolean equals(fieldmethod f) {
